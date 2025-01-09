@@ -1,0 +1,41 @@
+/* Shadow animations for focus */
+.shadow-normal {
+  box-shadow: 8px 8px 0px rgba(0, 0, 0, 1);
+  transform: translate(0, 0);
+}
+
+.shadow-focused {
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 1);
+  transform: translate(6px, 6px);
+}
+
+/* Label animation for focus */
+.label-focused {
+  transform: scale(1.1) translateX(-5px);
+}
+
+/* Input shake animation */
+input:focus {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-2px);
+  }
+  40% {
+    transform: translateX(2px);
+  }
+  60% {
+    transform: translateX(-2px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

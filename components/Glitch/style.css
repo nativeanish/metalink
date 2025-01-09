@@ -1,0 +1,19 @@
+/* Remove all animations from previous styles */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text-black {
+  position: relative;
+  display: inline-block;
+  color: #ffe135;
+  background: black;
+  padding: 0 0.5rem;
+}
+
+/* Add subtle hover effect */
+.glitch-text-black:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
