@@ -3,6 +3,8 @@ import { create } from "zustand";
 interface State {
   address: string | null;
   setAddress: () => void;
+  type: "metamask" | "arconnect" | null;
+  setType: (e: "metamask" | "arconnect" | null) => void;
 }
 
 const useAddress = create<State>((set) => ({
@@ -15,5 +17,7 @@ const useAddress = create<State>((set) => ({
       set({ address: null });
     }
   },
+  type: null,
+  setType: (e) => set({ type: e }),
 }));
 export default useAddress;

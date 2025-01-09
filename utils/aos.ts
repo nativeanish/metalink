@@ -7,17 +7,25 @@ import {
 import { PROCESS } from "../constants";
 import useProfile from "../store/useProfile";
 import useData from "../store/useData";
+import useAddress from "../store/useAddress";
+import { ethers } from "ethers";
+import { createData, InjectedEthereumSigner } from "arbundles/web";
 
 export async function register(uuid: string, name: string, design: string) {
+  const ether = new ethers.providers.Web3Provider(window.ethereum!);
   const profile = {
     name: useProfile.getState().name,
     description: useProfile.getState().description,
     image: useProfile.getState().image,
     links: useProfile.getState().links,
   };
+  const type = useAddress.getState().type;
   const trans = await message({
     process: PROCESS,
-    signer: createDataItemSigner(window.arweaveWallet),
+    signer:
+      type === "metamask"
+        ? (createBrowserEthereumDataItemSigner(ether) as any)
+        : createDataItemSigner(window.arweaveWallet),
     tags: [
       {
         name: "Action",
@@ -163,9 +171,15 @@ export const get_state = async (address: string) => {
 
 export const delete_page = async (id: string) => {
   try {
+    const ether = new ethers.providers.Web3Provider(window.ethereum!);
+    const type = useAddress.getState().type;
+
     const txn = await message({
       process: PROCESS,
-      signer: createDataItemSigner(window.arweaveWallet),
+      signer:
+        type === "metamask"
+          ? (createBrowserEthereumDataItemSigner(ether) as any)
+          : createDataItemSigner(window.arweaveWallet),
       tags: [
         {
           name: "Action",
@@ -187,5 +201,62 @@ export const delete_page = async (id: string) => {
     console.log(err);
     return false;
   }
-  return false;
 };
+
+export function createBrowserEthereumDataItemSigner(
+  ethersProvider: ethers.providers.Web3Provider
+) {
+  /**
+   * createDataItem can be passed here for the purposes of unit testing
+   * with a stub
+   */
+  const signer = async ({ data, tags, target, anchor }: any) => {
+    const ethersSigner = ethersProvider.getSigner();
+
+    const provider = {
+      getSigner: () => ({
+        signMessage: async (message: string) => {
+          return await ethersSigner.signMessage(message);
+        },
+      }),
+    };
+
+    const ethSigner = new InjectedEthereumSigner(provider as any);
+    await ethSigner.setPublicKey();
+
+    const dataItem = createData(data, ethSigner, { tags, target, anchor });
+
+    console.log(dataItem);
+
+    const res = await dataItem
+      .sign(ethSigner)
+      .then(async () => ({
+        id: await dataItem.id,
+        raw: await dataItem.getRaw(),
+      }))
+      .catch((e) => {
+        console.error(e);
+        return null; // Handle errors gracefully
+      });
+
+    console.dir(
+      {
+        valid: await InjectedEthereumSigner.verify(
+          ethSigner.publicKey,
+          await dataItem.getSignatureData(),
+          dataItem.rawSignature
+        ),
+        signature: dataItem.signature,
+        owner: dataItem.owner,
+        tags: dataItem.tags,
+        id: dataItem.id,
+        res,
+      },
+      { depth: 2 }
+    );
+
+    return res;
+  };
+
+  return signer;
+}
