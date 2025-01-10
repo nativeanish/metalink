@@ -63,22 +63,28 @@ export async function connectMetaMask() {
 
   try {
     // Request account access
-    await window.ethereum.request({ method: "eth_requestAccounts" });
+    if (
+      window.ethereum &&
+      window.ethereum.request &&
+      window.ethereum.isMetaMask
+    ) {
+      await window.ethereum.request({ method: "eth_requestAccounts" });
 
-    // Create a new provider
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
+      // Create a new provider
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    // Get the signer
-    const signer = provider.getSigner();
+      // Get the signer
+      const signer = provider.getSigner();
 
-    // Get the user's address
-    const address = await signer.getAddress();
-    if (address && address.length) {
-      useAddress.getState().setType("metamask");
-      useAddress.setState({ address: address });
+      // Get the user's address
+      const address = await signer.getAddress();
+      if (address && address.length) {
+        useAddress.getState().setType("metamask");
+        useAddress.setState({ address: address });
+      }
+
+      return { provider, signer, address };
     }
-
-    return { provider, signer, address };
   } catch (error) {
     console.error("Error connecting to MetaMask:", error);
   }

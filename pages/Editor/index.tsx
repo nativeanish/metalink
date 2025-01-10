@@ -43,7 +43,12 @@ function Editor() {
   const type = useAddress((state) => state.type);
   const address = useAddress((state) => state.address);
   const fetchens = async () => {
-    if (type === "metamask" && window.ethereum) {
+    if (
+      type === "metamask" &&
+      window.ethereum &&
+      window.ethereum.request &&
+      window.ethereum.isMetaMask
+    ) {
       try {
         if (address && ethers.utils.isAddress(address)) {
           const provider = new ethers.providers.Web3Provider(window.ethereum);

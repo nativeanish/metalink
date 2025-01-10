@@ -34,7 +34,6 @@
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react": "^4.3.4",
     "arconnect": "^1.0.4",
-    "arweave-wallet-connector": "^1.0.2",
     "autoprefixer": "^10.4.20",
     "esbuild": "0.24.0",
     "eslint": "^9.17.0",
