@@ -7,6 +7,7 @@ import ClassicDark from "../theme/ClassicDark";
 import ClassicBrut from "../theme/ClassicBrut";
 import BentoLight from "../theme/BentoLight";
 import useArns from "../store/useArns";
+import DotPage from "../theme/DotPage";
 export function generatePage(_theme: string) {
   const name = useProfile.getState().name;
   const description = useProfile.getState().description;
@@ -47,6 +48,13 @@ export function generatePage(_theme: string) {
       />
     ) : theme.title === "BentoDark" ? (
       <BentoDark
+        name={name}
+        description={description}
+        image={image}
+        links={links}
+      />
+    ) : theme.title === "dotpage" ? (
+      <DotPage
         name={name}
         description={description}
         image={image}

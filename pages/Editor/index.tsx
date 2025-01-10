@@ -20,6 +20,7 @@ import ENS from "../../Image/ENS";
 import { ethers } from "ethers";
 import AllLink from "../../utils/AllLink";
 import { uuidv7 } from "uuidv7";
+import DotPage from "../../theme/DotPage";
 
 function Editor() {
   const [searchParams] = useSearchParams();
@@ -211,6 +212,14 @@ function Editor() {
             )}
             {theme?.title === "BentoLight" && (
               <BentoLight
+                name={name}
+                description={description}
+                image={image}
+                links={link}
+              />
+            )}
+            {theme?.title === "dotpage" && (
+              <DotPage
                 name={name}
                 description={description}
                 image={image}

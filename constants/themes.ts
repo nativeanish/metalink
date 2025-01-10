@@ -5,6 +5,12 @@ const themes: Array<{
   view: "mobile" | "desktop";
 }> = [
   {
+    desktop: "dotpage.png",
+    mobile: "dotpageM.png",
+    title: "dotpage",
+    view: "desktop",
+  },
+  {
     desktop: "classicLight.png",
     mobile: "classicLightM.png",
     title: "classicLight",
