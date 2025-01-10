@@ -1,6 +1,9 @@
 import Index from "../pages/Index";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import OnBoard from "../pages/OnBoard";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import Theme from "../pages/Theme";
 import Editor from "../pages/Editor";
 import NotFound from "../pages/NotFound";
@@ -13,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/onboard",
-    element: <OnBoard />,
+    element: <Navigate to="/theme" replace />,
   },
   {
     path: "/theme",
