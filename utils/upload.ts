@@ -2,7 +2,6 @@ import useArns from "../store/useArns";
 import useCounter from "../store/useCounter";
 import useProfile from "../store/useProfile";
 import turbo from "./turbo";
-import { SERVER_URL } from "../constants";
 import { generateMetaTags, generatePage } from "./generate";
 import { uuidv7 } from "uuidv7";
 import { check_name, register } from "./aos";
@@ -66,26 +65,21 @@ export default async function upload(
       console.log(check);
       useCounter.setState({ counter: 4 });
       try {
-        await register(uuid, arns, theme);
-        try {
-          const chec = await fetch(`${SERVER_URL}/register`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ subdomain: arns, id: check }),
-          });
-          const res = await chec.json();
-          if (res.status === 0) {
-            setAlert(true);
-            setError("Error on Registering on Arns. Redirecting to Dashboard");
-            return;
-          }
-          useEdit.setState({ isEdit: false });
-          useCounter.setState({ counter: 5 });
-        } catch (e) {
+        const res = await register(uuid, arns, theme, check);
+        // try {
+        //   const chec = await fetch(`${SERVER_URL}/register`, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({ subdomain: arns, id: check }),
+        //   });
+        //   const res = await chec.json();
+        if (!res) {
           setAlert(true);
           setError("Error on Registering on Arns. Redirecting to Dashboard");
           return;
         }
+        useEdit.setState({ isEdit: false });
+        useCounter.setState({ counter: 5 });
       } catch (err) {
         console.log(err);
         setAlert(true);

@@ -53,6 +53,7 @@ export default function DashboardChild({
   };
   const setedit = useEdit((state) => state.setIsEdit);
   const setUUid = useEdit((state) => state.setUUid);
+  const onRemove = useData((state) => state.onRemove);
   const handleEdit = (linkId: string) => {
     const __state = state.find((e) => e.id === linkId);
     if (__state) {
@@ -111,8 +112,10 @@ export default function DashboardChild({
 
   const handleDelete = async (linkId: string) => {
     const msd = await delete_page(linkId);
-    console.log(msd);
-    reload(true);
+    if (msd) {
+      onRemove(linkId);
+      setSelectedLink(state[0]);
+    }
     return;
   };
 

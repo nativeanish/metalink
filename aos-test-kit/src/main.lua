@@ -2,6 +2,7 @@ State = State or {}
 View = View or {}
 Click = Click or {}
 local json = require("json")
+local ARNS = "WtdOKFeXCLPbl3QESUuICvKdiLLlBTp04SVWCQUC__w"
 
 local function isNamePresent(name)
   for _, states in pairs(State) do
@@ -17,45 +18,25 @@ end
 Handlers.add("register", Handlers.utils.hasMatchingTag("Action", "register"), function(msg)
   assert(type(msg.Tags.id) ~= "nil", "No id tag found")
   assert(type(msg.Data) ~= "nil", "No data found")
-  assert(type(msg.Tags.name) ~= "nil", "No name found")
+  assert(type(msg.Tags.name) ~= "nil" or msg.Tags.name ~= "@", "No name found")
   assert(type(msg.Tags.design) ~= "nil", "No Design found")
+  assert(type(msg.Tags.transId) ~= "nil", "No Uploaded Content Found")
   if State[msg.From] == nil then
     State[msg.From] = {}
   end
+  ao.send({
+    Target = ARNS,
+    Action = "Set-Record",
+    ["Sub-Domain"] = msg.Tags.name,
+    ["Transaction-Id"] = msg.Tags.transId,
+    ["TTL-Seconds"] = "3600"
+  })
   table.insert(State[msg.From], { id = msg.Tags.id, data = msg.Data, name = msg.Tags.name, design = msg.Tags.design })
   Handlers.utils.reply("Added")(msg)
 end)
 
--- Handlers.add("get_state", Handlers.utils.hasMatchingTag("Action", "get_state"), function(msg)
---   if State[msg.From] == nil then
---     Handlers.utils.reply(json.encode({ status = 0 }))(msg)
---     return
---   end
---   local Send = {}
---   for _, value in ipairs(State[msg.From]) do
---     local view = {}
---     if View[value.id] ~= nil then
---       for _, v in pairs(View[value.id]) do
---         local click = {}
---         if Click[v.id] ~= nil then
---           for _, j in ipairs(Click[v.id]) do
---             table.insert(click, j)
---           end
---         else
---           table.insert(click, {})
---         end
---         table.insert(view, { view = v, click = click })
---       end
---     else
---       table.insert(view, { view = {}, click = {} })
---     end
---     table.insert(Send, { state = value, views = view })
---   end
---   Handlers.utils.reply(json.encode(Send))(msg)
--- end)
-
 Handlers.add("check", Handlers.utils.hasMatchingTag("Action", "check"), function(msg)
-  assert(type(msg.Tags.name) ~= nil, "Name not present")
+  assert(type(msg.Tags.name) ~= nil or msg.Tags.name ~= "@", "Name not present")
   if isNamePresent(msg.Tags.name) == true then
     Handlers.utils.reply(json.encode({ status = 1, data = "present" }))(msg)
     return
@@ -158,10 +139,13 @@ Handlers.add("delete", Handlers.utils.hasMatchingTag("Action", "delete"), functi
     if v.id == msg.Tags.id then
       table.remove(db, i)
       Handlers.utils.reply("Deleted")(msg)
+      ao.send({
+        Target = ARNS,
+        Action = "Remove-Record",
+        ["Sub-Domain"] = v.name
+      })
       return
     end
   end
   Handlers.utils.reply("Not found")(msg)
 end)
-
-

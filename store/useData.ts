@@ -54,6 +54,7 @@ interface State {
   setView: (state_id: string, e: _view) => void;
   setClick: (state_id: string, view_id: string, e: _click) => void;
   clear: () => void;
+  onRemove: (e: string) => void;
 }
 const useData = create<State>((set) => ({
   state: [],
@@ -91,6 +92,11 @@ const useData = create<State>((set) => ({
   },
   clear: () => {
     set({ state: [] });
+  },
+  onRemove(e) {
+    set((state) => ({
+      state: state.state.filter((item) => item.id !== e),
+    }));
   },
 }));
 

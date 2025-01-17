@@ -11,7 +11,12 @@ import useAddress from "../store/useAddress";
 import { ethers } from "ethers";
 import { createData, InjectedEthereumSigner } from "arbundles/web";
 
-export async function register(uuid: string, name: string, design: string) {
+export async function register(
+  uuid: string,
+  name: string,
+  design: string,
+  upload_id: string
+) {
   const ether = new ethers.providers.Web3Provider(window.ethereum!);
   const profile = {
     name: useProfile.getState().name,
@@ -43,11 +48,19 @@ export async function register(uuid: string, name: string, design: string) {
         name: "design",
         value: design,
       },
+      {
+        name: "transId",
+        value: upload_id,
+      },
     ],
     data: JSON.stringify(profile),
   });
   const res = await result({ process: PROCESS, message: trans });
-  console.log(res);
+  if (res.Messages[1].Data === "Added") {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export async function check_name(handle: string) {
@@ -195,8 +208,12 @@ export const delete_page = async (id: string) => {
       process: PROCESS,
       message: txn,
     });
-    console.log(msg);
-    return true;
+    const res = msg.Messages[0].Data;
+    if (res === "Deleted") {
+      return true;
+    } else {
+      return false;
+    }
   } catch (err) {
     console.log(err);
     return false;
