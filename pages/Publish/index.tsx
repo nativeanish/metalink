@@ -170,21 +170,31 @@ function Publish() {
                             onSubmit={handleArnsSubmit}
                             className="mt-4 space-y-4"
                           >
-                            <div className="flex gap-4">
-                              <input
-                                type="text"
-                                value={arnsName}
-                                onChange={(e) => setArnsName(e.target.value)}
-                                placeholder="Enter ARNS name"
-                                className="flex-1 border-4 border-black p-2 font-bold focus:outline-none focus:ring-4 focus:ring-yellow-300"
-                                required
-                              />
-                              <button
-                                type="submit"
-                                className="bg-black text-yellow-300 px-6 py-2 font-bold hover:bg-yellow-300 hover:text-black border-2 border-black transition-colors"
-                              >
-                                Submit
-                              </button>
+                            <div className="flex flex-col gap-y-3">
+                              <div className="flex gap-4">
+                                <input
+                                  type="text"
+                                  value={arnsName}
+                                  onChange={(e) => setArnsName(e.target.value)}
+                                  placeholder="Enter ARNS name"
+                                  className="flex-1 border-4 border-black p-2 font-bold focus:outline-none focus:ring-4 focus:ring-yellow-300"
+                                  required
+                                />
+                                <button
+                                  type="submit"
+                                  className="bg-black text-yellow-300 px-6 py-2 font-bold hover:bg-yellow-300 hover:text-black border-2 border-black transition-colors"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                              <div className="flex items-center justify-center font-bold">
+                                - OR -
+                              </div>
+                              <div>
+                                <button className="bg-black text-gray-200 px-6 py-3 font-bold w-full">
+                                  Use Your ArNS Primary Name
+                                </button>
+                              </div>
                             </div>
                             {loading && (
                               <div className="text-black font-bold mt-2">

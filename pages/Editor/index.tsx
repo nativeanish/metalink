@@ -21,6 +21,7 @@ import { ethers } from "ethers";
 import AllLink from "../../utils/AllLink";
 import { uuidv7 } from "uuidv7";
 import DotPage from "../../theme/DotPage";
+import { ANT, ArconnectSigner, ARIO } from "@ar.io/sdk";
 
 function Editor() {
   const [searchParams] = useSearchParams();
@@ -123,6 +124,33 @@ function Editor() {
       }
     }
   };
+  const fetchArns = async () => {
+    if (type === "arconnect" && window.arweaveWallet && address) {
+      const ario = ARIO.init({
+        signer: new ArconnectSigner(window.arweaveWallet),
+      });
+      const data = await ario.getPrimaryName({ address: address });
+      if (data?.processId) {
+        const ant = ANT.init({
+          signer: new ArconnectSigner(window.arweaveWallet),
+          processId: data.processId,
+        });
+        const info = await ant.getInfo();
+        if (info.Name) {
+          setName(info.Name);
+        }
+        if (info.Description) {
+          setDescription(info.Description);
+        }
+        if (info.Logo) {
+          useProfile.setState({ image: `https://arweave.net/${info.Logo}` });
+          useProfile.setState({ image_type: "url" });
+        }
+      } else {
+        alert("Name not Found on ArNS");
+      }
+    }
+  };
   return (
     <div
       id="main"
@@ -151,6 +179,19 @@ function Editor() {
               >
                 <ENS />
                 <div>Fetch from ENS</div>
+              </button>
+            </div>
+          )}
+          {type === "arconnect" && (
+            <div>
+              <button
+                className="flex items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center gap-x-2 border-2 border-black bg-white p-2
+                     font-mono font-bold transition-all duration-200 hover:-translate-y-0.5 
+                     hover:bg-gray-200 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
+                onClick={() => fetchArns()}
+              >
+                <ENS />
+                <div>Fetch from ArNS</div>
               </button>
             </div>
           )}
