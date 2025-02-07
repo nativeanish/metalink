@@ -17,7 +17,12 @@ export default async function upload(
     useCounter.setState({ counter: 1 });
   }
   const arns = useArns.getState().arns;
-  const resp = isEdit ? true : await check_name(arns);
+  let resp = false;
+  if (arns.startsWith("@")) {
+    resp = true;
+  } else {
+    resp = isEdit ? true : await check_name(arns);
+  }
   useArns.setState({ loading: false });
   if (resp) {
     useCounter.setState({ counter: 1 });

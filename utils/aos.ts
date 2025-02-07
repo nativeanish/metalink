@@ -10,6 +10,7 @@ import useData from "../store/useData";
 import useAddress from "../store/useAddress";
 import { ethers } from "ethers";
 import { createData, InjectedEthereumSigner } from "arbundles/web";
+import { ANT, ArconnectSigner, ARIO } from "@ar.io/sdk";
 
 export async function register(
   uuid: string,
@@ -17,19 +18,38 @@ export async function register(
   design: string,
   upload_id: string
 ) {
-  const ether = new ethers.providers.Web3Provider(window.ethereum!);
+  if (name.startsWith("@")) {
+    const ario = ARIO.init({})
+    const info = await ario.getPrimaryName({ address: useAddress.getState().address! })
+    if (info?.name && info.processId) {
+      const ant = ANT.init({
+        signer: new ArconnectSigner(window.arweaveWallet),
+        processId: info.processId
+      })
+      await ant.setBaseNameRecord({
+        transactionId: upload_id,
+        ttlSeconds: 3600
+      })
+    } else {
+      return false
+    }
+  }
+  const type = useAddress.getState().type;
+  let ether
+  if (type === "metamask") {
+    ether = new ethers.providers.Web3Provider(window.ethereum!);
+  }
   const profile = {
     name: useProfile.getState().name,
     description: useProfile.getState().description,
     image: useProfile.getState().image,
     links: useProfile.getState().links,
   };
-  const type = useAddress.getState().type;
   const trans = await message({
     process: PROCESS,
     signer:
       type === "metamask"
-        ? (createBrowserEthereumDataItemSigner(ether) as any)
+        ? (createBrowserEthereumDataItemSigner(ether!) as any)
         : createDataItemSigner(window.arweaveWallet),
     tags: [
       {
@@ -98,8 +118,8 @@ export const get_state = async (address: string) => {
   const state: {
     status: 0 | 1;
     data:
-      | string
-      | Array<{ data: string; design: string; id: string; name: string }>;
+    | string
+    | Array<{ data: string; design: string; id: string; name: string }>;
   } = JSON.parse(awas.Messages[0].Data);
   if (state.status && typeof state.data !== "string") {
     for (let i = 0; i < state.data.length; i++) {
@@ -121,18 +141,18 @@ export const get_state = async (address: string) => {
       const data: {
         status: 0 | 1;
         data:
-          | Array<{
-              browser: string;
-              date: string;
-              id: string;
-              ip: string;
-              loadtime: string;
-              name: string;
-              os: string;
-              timezone: string;
-              wallet: string;
-            }>
-          | string;
+        | Array<{
+          browser: string;
+          date: string;
+          id: string;
+          ip: string;
+          loadtime: string;
+          name: string;
+          os: string;
+          timezone: string;
+          wallet: string;
+        }>
+        | string;
       } = JSON.parse(res.Messages[0].Data);
       if (data.status && typeof data.data !== "string") {
         for (let j = 0; j < data.data.length; j++) {
@@ -184,14 +204,13 @@ export const get_state = async (address: string) => {
 
 export const delete_page = async (id: string) => {
   try {
-    const ether = new ethers.providers.Web3Provider(window.ethereum!);
     const type = useAddress.getState().type;
 
     const txn = await message({
       process: PROCESS,
       signer:
         type === "metamask"
-          ? (createBrowserEthereumDataItemSigner(ether) as any)
+          ? (createBrowserEthereumDataItemSigner(new ethers.providers.Web3Provider(window.ethereum!)) as any)
           : createDataItemSigner(window.arweaveWallet),
       tags: [
         {

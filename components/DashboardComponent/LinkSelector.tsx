@@ -77,10 +77,15 @@ export function LinkSelector({
           </button>
           <button
             onClick={() => {
-              window.open(
-                `https://${selectedLink.name}_metapaths.ar.io`,
-                "_blank"
-              );
+              console.log(selectedLink.name);
+              if (selectedLink.name.startsWith("@")) {
+                window.open(`https://${selectedLink.name}.ar.io`, "_blank");
+              } else {
+                window.open(
+                  `https://${selectedLink.name}_metapaths.ar.io`,
+                  "_blank"
+                );
+              }
             }}
             className="flex-1 sm:flex-none px-4 py-2 border-2 border-gray-800 bg-white hover:bg-gray-100 flex items-center justify-center text-blue-600 hover:text-blue-800"
           >

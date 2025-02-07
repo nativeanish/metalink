@@ -10,6 +10,8 @@ import { ModalAlert } from "../../components/ModalAlert";
 import ReactConfetti from "react-confetti";
 import AnimateText from "../../components/AnimateText";
 import useEdit from "../../store/useEdit";
+import { ARIO } from "@ar.io/sdk";
+import useAddress from "../../store/useAddress";
 
 const steps = [
   "Setting up Arns Record",
@@ -27,10 +29,13 @@ function Publish() {
   const setArnsName = useArns((state) => state.setArns);
   const loading = useArns((state) => state.loading);
   const isavailable = useArns((state) => state.isAvailable);
+  const setdata = useArns((state) => state.setdata);
+  const data = useArns((state) => state.data);
   const [searchParams] = useSearchParams();
   const theme = searchParams.get("theme");
   const navigate = useNavigate();
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [checkprimary, setPrimary] = useState(false);
   const [eroor, setError] = useState("");
   useEffect(() => {
     if (!theme) {
@@ -46,6 +51,38 @@ function Publish() {
       }
     }
   }, [isEdit]);
+  const address = useAddress((state) => state.address);
+  const fetchroot = async () => {
+    setPrimary(true);
+    const ant = ARIO.init({});
+    try {
+      useArns.setState({ loading: true });
+      setdata("");
+      const info = await ant.getPrimaryName({ address: address! });
+      if (
+        info?.name &&
+        info?.name.length > 0 &&
+        info.processId &&
+        info?.processId.length > 0
+      ) {
+        useArns.setState({ loading: false });
+        setArnsName(`@${info.name}`);
+        console.log(info.name);
+        upload(theme!, setIsAlertOpen, setError).then().catch(console.error);
+      } else {
+        setPrimary(false);
+        setError("No Primary Name Found");
+        useArns.setState({ loading: false });
+      }
+    } catch (err) {
+      console.log("here is your error");
+      useArns.setState({ loading: false });
+      setPrimary(false);
+      setdata("ArNS primary name not Found");
+    }
+    useArns.setState({ loading: false });
+    setPrimary(false);
+  };
   const handleArnsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (arnsName) {
@@ -55,13 +92,20 @@ function Publish() {
   useEffect(() => {
     if (currentStep === 5) {
       setTimeout(() => {
-        window.open(`https://${arnsName}_metapaths.ar.io`, "_blank");
-        navigate("/dashboard");
+        if (arnsName.startsWith("@")) {
+          window.open(`https://${arnsName}.ar.io`, "_blank");
+          navigate("/dashboard");
+        } else {
+          window.open(`https://${arnsName}_metapaths.ar.io`, "_blank");
+          navigate("/dashboard");
+        }
       }, 4000);
     }
   }, [currentStep]);
   useEffect(() => {
     setCurrentStep(0);
+    setArnsName("");
+    useEdit.setState({ isEdit: false });
   }, []);
   useEffect(() => {
     if (isAlertOpen && eroor.length > 0) {
@@ -79,6 +123,15 @@ function Publish() {
         </div>
         <ConnectButton />
       </nav>
+      <ModalAlert
+        isOpen={checkprimary}
+        onClose={() => {
+          setPrimary(false);
+        }}
+        title="Primary Name"
+      >
+        <p className="mt-2">Checking Primary Name from ArNS</p>
+      </ModalAlert>
       {isAlertOpen && eroor.length > 0 && (
         <ModalAlert
           isOpen={isAlertOpen}
@@ -102,7 +155,9 @@ function Publish() {
           />
           <AnimateText
             text={[
-              `${arnsName}_metpaths.ar.io`,
+              arnsName.startsWith("@")
+                ? `${arnsName}.ar.io`
+                : `${arnsName}_metpaths.ar.io`,
               "is published.",
               "Redirecting to page",
               "and analytics page",
@@ -181,6 +236,9 @@ function Publish() {
                                   required
                                 />
                                 <button
+                                  disabled={
+                                    arnsName.startsWith("@") ? true : false
+                                  }
                                   type="submit"
                                   className="bg-black text-yellow-300 px-6 py-2 font-bold hover:bg-yellow-300 hover:text-black border-2 border-black transition-colors"
                                 >
@@ -191,7 +249,10 @@ function Publish() {
                                 - OR -
                               </div>
                               <div>
-                                <button className="bg-black text-gray-200 px-6 py-3 font-bold w-full">
+                                <button
+                                  className="bg-black text-gray-200 px-6 py-3 font-bold w-full"
+                                  onClick={() => fetchroot()}
+                                >
                                   Use Your ArNS Primary Name
                                 </button>
                               </div>
@@ -199,6 +260,11 @@ function Publish() {
                             {loading && (
                               <div className="text-black font-bold mt-2">
                                 Checking...
+                              </div>
+                            )}
+                            {data && data.length && (
+                              <div className="text-red-500 font-bold mt-2">
+                                {data}
                               </div>
                             )}
                             {!loading && isavailable === false && (

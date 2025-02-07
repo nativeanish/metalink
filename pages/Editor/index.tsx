@@ -7,7 +7,7 @@ import SearchBar from "../../components/SearchBar";
 import { LinkDisplay } from "../../components/LinkDisplay";
 import useProfile from "../../store/useProfile";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import themes from "../../constants/themes";
 import BentoDark from "../../theme/BentoDark";
 import { FaUpload } from "react-icons/fa";
@@ -22,6 +22,7 @@ import AllLink from "../../utils/AllLink";
 import { uuidv7 } from "uuidv7";
 import DotPage from "../../theme/DotPage";
 import { ANT, ArconnectSigner, ARIO } from "@ar.io/sdk";
+import { ModalAlert } from "../../components/ModalAlert";
 
 function Editor() {
   const [searchParams] = useSearchParams();
@@ -44,6 +45,8 @@ function Editor() {
   const image = useProfile((state) => state.image);
   const type = useAddress((state) => state.type);
   const address = useAddress((state) => state.address);
+  const [show, setShow] = useState(false);
+  const [text, setText] = useState("");
   const fetchens = async () => {
     if (
       type === "metamask" &&
@@ -126,36 +129,58 @@ function Editor() {
   };
   const fetchArns = async () => {
     if (type === "arconnect" && window.arweaveWallet && address) {
-      const ario = ARIO.init({
-        signer: new ArconnectSigner(window.arweaveWallet),
-      });
-      const data = await ario.getPrimaryName({ address: address });
-      if (data?.processId) {
-        const ant = ANT.init({
+      try {
+        setShow(true);
+        setText("Fetching the details from ArNS");
+        const ario = ARIO.init({
           signer: new ArconnectSigner(window.arweaveWallet),
-          processId: data.processId,
         });
-        const info = await ant.getInfo();
-        if (info.Name) {
-          setName(info.Name);
+        const data = await ario.getPrimaryName({ address: address });
+        if (data?.processId) {
+          const ant = ANT.init({
+            signer: new ArconnectSigner(window.arweaveWallet),
+            processId: data.processId,
+          });
+          const info = await ant.getInfo();
+          if (info.Name) {
+            setName(info.Name);
+          }
+          if (info.Description) {
+            setDescription(info.Description);
+          }
+          if (info.Logo) {
+            useProfile.setState({ image: `https://arweave.net/${info.Logo}` });
+            useProfile.setState({ image_type: "url" });
+          }
+          setShow(false);
         }
-        if (info.Description) {
-          setDescription(info.Description);
-        }
-        if (info.Logo) {
-          useProfile.setState({ image: `https://arweave.net/${info.Logo}` });
-          useProfile.setState({ image_type: "url" });
-        }
-      } else {
-        alert("Name not Found on ArNS");
+      } catch (err) {
+        setText("Error, No details found on ArNS");
       }
     }
   };
+  useEffect(() => {
+    if (text.startsWith("Error")) {
+      setTimeout(() => {
+        setShow(false);
+      }, 5000);
+    }
+  }, [text]);
   return (
     <div
       id="main"
       className="h-screen bg-yellow-300 p-6 font-mono relative overflow-hidden flex flex-col"
     >
+      <ModalAlert
+        isOpen={show}
+        title="Fetching Details from ArNS"
+        onClose={() => {
+          setShow(false);
+        }}
+        color={text.startsWith("Error") ? "bg-red-500" : "bg-blue-500"}
+      >
+        <p className="text-white font-bold mt-3">{text}</p>
+      </ModalAlert>
       <nav className="flex items-center justify-between mb-4 relative z-10">
         <div className="text-2xl font-bold bg-black text-white px-4 py-2">
           <span className="text-yellow-300">META</span>Link

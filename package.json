@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@ar.io/sdk": "^3.4.1",
+    "@ardrive/turbo-sdk": "^1.22.0",
     "@fractalsoftware/random-avatar-generator": "^1.0.11",
     "@irys/sdk": "0.0.4",
     "@permaweb/aoconnect": "^0.0.62",
