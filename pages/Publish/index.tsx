@@ -43,15 +43,15 @@ function Publish() {
       navigate("/theme");
     }
   }, [theme, navigate]);
-  const isEdit = useEdit((state) => state.isEdit);
-  useEffect(() => {
-    if (!isEdit) {
-      if (arnsName) {
-        setCurrentStep(1);
-        upload(theme!, setIsAlertOpen, setError).then().catch(console.error);
-      }
-    }
-  }, [isEdit, arnsName, setCurrentStep]);
+  // const isEdit = useEdit((state) => state.isEdit);
+  // useEffect(() => {
+  //   if (!isEdit) {
+  //     if (arnsName) {
+  //       setCurrentStep(1);
+  //       upload(theme!, setIsAlertOpen, setError).then().catch(console.error);
+  //     }
+  //   }
+  // }, [isEdit, arnsName, setCurrentStep]);
   const address = useAddress((state) => state.address);
   const fetchroot = async () => {
     setPrimary(true);
