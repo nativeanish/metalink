@@ -1,50 +1,104 @@
-# React + TypeScript + Vite
+# MetaLink - Decentralized Link Hub
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU" alt="MetaLink Logo" width="200" />
+</p>
 
-Currently, two official plugins are available:
+MetaLink is a decentralized link hub platform built on Arweave that allows users to create and manage their web presence in a fully decentralized way. Own your content, control your presence - no intermediaries, just pure web3 freedom.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Features
 
-## Expanding the ESLint configuration
+- **Decentralized Storage**: All content stored permanently on Arweave
+- **Custom Domains**: Use ArNS for personalized domains
+- **Multiple Themes**: Choose from various professionally designed themes
+- **Analytics Dashboard**: Track views and engagement
+- **Web3 Integration**: Connect with ArConnect or MetaMask
+- **Social Links**: Support for 60+ platforms and services
+- **Responsive Design**: Optimized for all devices
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🚀 Getting Started
 
-- Configure the top-level `parserOptions` property like this:
+1. **Connect Your Wallet**
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+   - Use ArConnect or MetaMask
+   - Click "Connect Wallet" in the top right
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+2. **Choose Your Handle**
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+   - Enter your desired handle
+   - Handles are unique and permanent
+   - Can use ArNS primary names
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+3. **Select a Theme**
+
+   - Browse available themes
+   - Preview desktop and mobile views
+   - Click "Apply" to select
+
+4. **Customize Your Profile**
+
+   - Add profile picture
+   - Set name and description
+   - Add social links and other content
+
+5. **Publish**
+   - Review your page
+   - Click "Publish" to deploy
+   - Get your permanent URL
+
+## 🎨 Available Themes
+
+- **Classic Light**: Clean, minimalist design
+- **Classic Dark**: Modern dark mode interface
+- **Classic Brutalist**: Bold, artistic style
+- **Bento Light**: Grid-based modern layout
+- **Bento Dark**: Dark version of Bento theme
+- **Dot Page**: Playful dot-pattern design
+
+## 📊 Analytics
+
+Track your page performance with:
+
+- View counts
+- Click tracking
+- Geographic data
+- Device information
+- Web3 wallet detection
+- Time-based analytics
+
+## 🔧 Technical Stack
+
+- **Frontend**: React + TypeScript + Vite
+- **Storage**: Arweave
+- **Name Service**: ArNS
+- **Styling**: TailwindCSS
+- **Web3**: ArConnect, MetaMask
+
+## 🔐 Security
+
+- All data stored on Arweave
+- No central database
+- Self-custodial
+- Open source
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🌐 Links
+
+- [Website](https://metalink.ar.io)
+- [Documentation](https://docs.metalink.ar.io)
+- [Twitter](https://twitter.com/ar_io_network)
+
+## 💡 Support
+
+For support, please join our [Discord](https://discord.gg/arweave) community.

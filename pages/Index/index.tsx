@@ -162,8 +162,15 @@ export default function Index() {
       </div>
 
       <nav className="flex items-center justify-between mb-20 relative z-10">
-        <div className="text-2xl font-bold bg-black text-white px-4 py-2">
-          <span className="text-yellow-300">META</span>Link
+        {/* <div className="text-2xl font-bold bg-black text-white px-4 py-2">
+          <span className="text-yellow-300">Meta</span>Links
+        </div> */}
+        <div>
+          <img
+            src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
+            height="50px"
+            width="50px"
+          />
         </div>
         <ConnectButton />
       </nav>
@@ -208,7 +215,7 @@ export default function Index() {
                   />
                   <div className="absolute right-0 top-0 h-full flex items-center pr-3 pointer-events-none">
                     <span className="text-black font-medium transition-opacity duration-500 opacity-80 text-sm sm:text-base">
-                      _metapaths.{handles[currentHandle]}
+                      _metalinks.{handles[currentHandle]}
                     </span>
                   </div>
                 </div>
