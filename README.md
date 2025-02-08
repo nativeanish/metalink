@@ -1,10 +1,10 @@
-# MetaLink - Decentralized Link Hub
+# MetaLinks - Decentralized Link Hub
 
 <p align="center">
-  <img src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU" alt="MetaLink Logo" width="200" />
+  <img src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU" alt="MetaLinks Logo" width="200" />
 </p>
 
-MetaLink is a decentralized link hub platform built on Arweave that allows users to create and manage their web presence in a fully decentralized way. Own your content, control your presence - no intermediaries, just pure web3 freedom.
+MetaLinks is a decentralized link hub platform built on Arweave that allows users to create and manage their web presence in a fully decentralized way. Own your content, control your presence - no intermediaries, just pure web3 freedom.
 
 ## 🌟 Features
 
@@ -95,9 +95,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🌐 Links
 
-- [Website](https://metalink.ar.io)
-- [Documentation](https://docs.metalink.ar.io)
-- [Twitter](https://twitter.com/ar_io_network)
+- [Website](https://MetaLinks.ar.io)
 
 ## 💡 Support
 
