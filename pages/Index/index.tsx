@@ -4,6 +4,7 @@ import GlitchText from "../../components/Glitch";
 import { glitchText } from "../../utils/glitchEffect";
 import "../../components/Glitch/style.css";
 import AvailabilityModal from "../../components/AvailabilityModal";
+import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
 
 const handles = [
   "permadao.io",
@@ -226,6 +227,23 @@ export default function Index() {
           </div>
         </div>
       </div>
+      <footer className="w-full  py-8 mt-auto">
+        <div className="container px-4 mx-auto">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <div className="flex items-center space-x-6">
+              <a href="https://github.com/nativeanish/metalink" target="_blank">
+                <FaGithub className="w-6 h-6" />
+              </a>
+              <a href="">
+                <FaTwitter className="w-6 h-6" />
+              </a>
+              <a href="">
+                <FaDiscord className="w-6 h-6" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
