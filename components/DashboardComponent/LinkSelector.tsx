@@ -1,4 +1,4 @@
-import { FaChevronDown, FaEdit, FaGlobe, FaTrash } from "react-icons/fa";
+import { FaChevronDown, FaGlobe, FaTrash } from "react-icons/fa";
 import { _state } from "../../store/useData";
 import { TbReload } from "react-icons/tb";
 
@@ -19,7 +19,6 @@ export function LinkSelector({
   isDropdownOpen,
   onLinkChange,
   onDropdownToggle,
-  onEdit,
   onDelete,
   reload,
 }: LinkSelectorProps) {

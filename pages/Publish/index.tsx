@@ -42,7 +42,7 @@ function Publish() {
     if (!theme) {
       navigate("/theme");
     }
-  }, [theme]);
+  }, [theme, navigate]);
   const isEdit = useEdit((state) => state.isEdit);
   useEffect(() => {
     if (!isEdit) {
@@ -51,7 +51,7 @@ function Publish() {
         upload(theme!, setIsAlertOpen, setError).then().catch(console.error);
       }
     }
-  }, [isEdit]);
+  }, [isEdit, arnsName, setCurrentStep]);
   const address = useAddress((state) => state.address);
   const fetchroot = async () => {
     setPrimary(true);
@@ -102,19 +102,19 @@ function Publish() {
         }
       }, 4000);
     }
-  }, [currentStep]);
+  }, [navigate, currentStep, arnsName]);
   useEffect(() => {
     setCurrentStep(0);
     setArnsName("");
     useEdit.setState({ isEdit: false });
-  }, []);
+  }, [setCurrentStep, setArnsName]);
   useEffect(() => {
     if (isAlertOpen && eroor.length > 0) {
       setTimeout(() => {
         navigate("/dashboard");
       }, 4000);
     }
-  }, [isAlertOpen, eroor]);
+  }, [isAlertOpen, eroor, navigate]);
   return (
     <div className="min-h-screen p-6 font-mono">
       <BG />

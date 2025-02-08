@@ -40,7 +40,7 @@ const AvailabilityModal: React.FC<AvailabilityModalProps> = ({
     } else {
       setTimeout(() => setIsVisible(false), 300);
     }
-  }, [isOpen]);
+  }, [isOpen, handle]);
 
   if (!isVisible) return null;
   const handleConnectAndClaim = async () => {

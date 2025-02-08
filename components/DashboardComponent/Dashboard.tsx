@@ -38,7 +38,7 @@ export default function DashboardChild({
     if (address) {
       get_state(address);
     }
-  }, []);
+  }, [address]);
   useEffect(() => {
     setChartData(getLinkPerformanceDataByDate(selectedLink));
   }, [selectedLink, setChartData]);

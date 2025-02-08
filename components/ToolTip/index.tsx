@@ -16,15 +16,11 @@ const Tooltip: React.FC<{
     padding: "0.25rem 0.5rem",
     borderRadius: "0.25rem",
     zIndex: 1000,
-    textAlign: "center",
+    textAlign: "center" as const,
     fontSize: "4 rem",
     border: "2px solid black",
   };
 
-  return createPortal(
-    //@ts-ignore
-    <div style={tooltipStyle}>{text}</div>,
-    document.body
-  );
+  return createPortal(<div style={tooltipStyle}>{text}</div>, document.body);
 };
 export default Tooltip;

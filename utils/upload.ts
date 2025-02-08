@@ -40,7 +40,7 @@ export default async function upload(
         try {
           const image_id = await turbo(buf, src);
           useProfile.setState({ image: `https://arweave.net/${image_id}` });
-        } catch (e) {
+        } catch (_err) {
           setAlert(true);
           setError("Error in Uploading Image. Redirecting to Dashboard");
           return;

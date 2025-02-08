@@ -25,11 +25,11 @@ function Dashboard() {
   const setIsEdit = useEdit((state) => state.setIsEdit);
   useEffect(() => {
     setIsEdit(false);
-  }, []);
+  }, [setIsEdit]);
 
   useEffect(() => {
     fetchData();
-  }, [address]);
+  }, [address, fetchData]);
 
   useEffect(() => {
     if (reLoad) {
@@ -37,7 +37,7 @@ function Dashboard() {
       setReload(false);
     }
     setReload(false);
-  }, [reLoad]);
+  }, [reLoad, fetchData]);
   const [colorIndex, setColorIndex] = useState(0);
   const colors = ["bg-red-500", "bg-blue-500", "bg-green-500"];
 
@@ -47,7 +47,7 @@ function Dashboard() {
     }, 500);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [colors.length]);
 
   return (
     <div className="min-h-screen bg-yellow-300 p-6 font-mono relative z-20">

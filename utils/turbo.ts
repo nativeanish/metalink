@@ -1,28 +1,6 @@
-// import { WebIrys } from "@irys/sdk";
 import useAddress from "../store/useAddress";
 import { ethers } from "ethers";
 import { TurboFactory, ArconnectSigner, } from "@ardrive/turbo-sdk/web";
-
-// export default async function turbo(data: string | Buffer, type: string) {
-//   let ether;
-//   let wallet;
-//   const _type = useAddress.getState().type;
-//   if (_type === "metamask") {
-//     ether = new ethers.providers.Web3Provider(window.ethereum!);
-//     wallet = { rpcUrl: "", name: "ethersv5", provider: ether };
-//   }
-//   const irys = new WebIrys({
-//     url: "https://turbo.ardrive.io",
-//     token: _type === "metamask" ? "ethereum" : "arweave",
-//     wallet: _type === "metamask" ? wallet : { provider: window.arweaveWallet },
-//   });
-//   await irys.ready();
-//   const upload = await irys.upload(data, {
-//     tags: [{ name: "Content-Type", value: type }],
-//   });
-//   return upload.id;
-// }
-
 export default async function turbo(data: string | Buffer, type: string) {
   let turbo;
   const _type = useAddress.getState().type;

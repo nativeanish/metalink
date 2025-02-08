@@ -23,7 +23,7 @@ export function LinkDisplay({ id }: LinkDisplayProps) {
     });
     setName(link.name);
     setUrl(link.url);
-  }, [id]);
+  }, [id, getLink]);
   const onChange = useProfile((state) => state.onChange);
   const onClose = useProfile((state) => state.onDelete);
   const [isEditing, setIsEditing] = useState(false);

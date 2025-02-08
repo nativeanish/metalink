@@ -36,7 +36,7 @@ function Editor() {
     if (!theme) {
       navigate("/theme");
     }
-  }, [theme, view]);
+  }, [theme, view, navigate]);
 
   const name = useProfile((state) => state.name);
   const setName = useProfile((state) => state.setName);
@@ -155,7 +155,7 @@ function Editor() {
           }
           setShow(false);
         }
-      } catch (err) {
+      } catch (_err) {
         setText("Error, No details found on ArNS");
       }
     }

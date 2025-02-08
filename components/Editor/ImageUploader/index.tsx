@@ -18,7 +18,7 @@ function ImageUploader() {
         `data:image/svg+xml;base64,${btoa(getRandomAvatar(25) as string)}`
       );
     }
-  }, []);
+  }, [image, setImage]);
   const set_image_type = useProfile((state) => state.set_image_type);
   const regenerate = () => {
     set_image_type("image/svg+xml");

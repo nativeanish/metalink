@@ -42,7 +42,7 @@ function ConnectButton() {
     window.addEventListener("arweaveWalletLoaded", async () => {
       await checkConnection();
     });
-  }, [location, address]);
+  }, [location, address, navigate]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
