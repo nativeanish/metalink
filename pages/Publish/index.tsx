@@ -12,6 +12,7 @@ import AnimateText from "../../components/AnimateText";
 import useEdit from "../../store/useEdit";
 import { ARIO } from "@ar.io/sdk";
 import useAddress from "../../store/useAddress";
+import ArNS from "../../Image/ArNS";
 
 const steps = [
   "Setting up Arns Record",
@@ -253,7 +254,10 @@ function Publish() {
                                   className="bg-black text-gray-200 px-6 py-3 font-bold w-full"
                                   onClick={() => fetchroot()}
                                 >
-                                  Use Your ArNS Primary Name
+                                  <div className="flex flex-row items-center justify-center gap-x-4 text-white">
+                                    <ArNS color="white" />
+                                    Use Your ArNS Primary Name
+                                  </div>
                                 </button>
                               </div>
                             </div>

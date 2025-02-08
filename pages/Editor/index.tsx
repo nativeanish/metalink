@@ -23,6 +23,7 @@ import { uuidv7 } from "uuidv7";
 import DotPage from "../../theme/DotPage";
 import { ANT, ArconnectSigner, ARIO } from "@ar.io/sdk";
 import { ModalAlert } from "../../components/ModalAlert";
+import ArNS from "../../Image/ArNS";
 
 function Editor() {
   const [searchParams] = useSearchParams();
@@ -215,7 +216,7 @@ function Editor() {
                      hover:bg-gray-200 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
                 onClick={() => fetchArns()}
               >
-                <ENS />
+                <ArNS />
                 <div>Fetch from ArNS</div>
               </button>
             </div>
