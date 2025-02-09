@@ -4,7 +4,7 @@ import { uuidv7 } from "uuidv7";
 import { message } from "@permaweb/aoconnect";
 import { ArweaveSigner, createData } from "warp-arbundles";
 const PROCESS = "nMM8c6RbcZ-ZXwhM2jVPOfDpT2cGTu-JHT7fFx05_iQ";
-export const self = "https://metapaths.ar.io";
+export const self = "https://metalinks.ar.io";
 declare global {
   interface Window {
     Arweave: any;

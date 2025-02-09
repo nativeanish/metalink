@@ -94,10 +94,8 @@ function Publish() {
     if (currentStep === 5) {
       setTimeout(() => {
         if (arnsName.startsWith("@")) {
-          window.open(`https://${arnsName}.ar.io`, "_blank");
           navigate("/dashboard");
         } else {
-          window.open(`https://${arnsName}_metapaths.ar.io`, "_blank");
           navigate("/dashboard");
         }
       }, 4000);
@@ -105,7 +103,6 @@ function Publish() {
   }, [navigate, currentStep, arnsName]);
   useEffect(() => {
     setCurrentStep(0);
-    setArnsName("");
     useEdit.setState({ isEdit: false });
   }, [setCurrentStep, setArnsName]);
   useEffect(() => {
@@ -119,8 +116,17 @@ function Publish() {
     <div className="min-h-screen p-6 font-mono">
       <BG />
       <nav className="flex items-center justify-between mb-8">
-        <div className="text-2xl font-bold bg-black text-white px-4 py-2">
-          <span className="text-yellow-300">META</span>Link
+        <div className="flex flex-row gap-x-1">
+          <div>
+            <img
+              src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
+              height="50px"
+              width="50px"
+            />
+          </div>
+          <div className="text-2xl font-bold bg-black text-white px-4 py-2 flex items-center justify-center">
+            <span className="text-yellow-300">Meta</span>Links
+          </div>
         </div>
         <ConnectButton />
       </nav>

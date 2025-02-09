@@ -1,6 +1,7 @@
-import { FaChevronDown, FaGlobe, FaTrash } from "react-icons/fa";
+import { FaChevronDown, FaGlobe, FaPlus, FaTrash } from "react-icons/fa";
 import { _state } from "../../store/useData";
 import { TbReload } from "react-icons/tb";
+import { useNavigate } from "react-router-dom";
 
 interface LinkSelectorProps {
   selectedLink: _state;
@@ -22,6 +23,7 @@ export function LinkSelector({
   onDelete,
   reload,
 }: LinkSelectorProps) {
+  const navigate = useNavigate();
   return (
     <div className="bg-white border-4 border-gray-800 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-4 sm:p-6 mb-6">
       <h2 className="text-xl sm:text-2xl font-bold mb-2">Select a Page</h2>
@@ -62,6 +64,13 @@ export function LinkSelector({
           >
             <FaEdit className="w-4 h-4 mr-2" /> Edit
           </button> */}
+          <button
+            className="flex-1 sm:flex-none px-4 py-2 border-2 border-gray-800 bg-white hover:bg-gray-100 flex items-center justify-center"
+            onClick={() => navigate("/theme")}
+          >
+            <FaPlus className="w-4 h-4 mr-2" />
+            New
+          </button>
           <button
             onClick={() => onDelete(selectedLink.id)}
             className="flex-1 sm:flex-none px-4 py-2 border-2 border-gray-800 bg-white hover:bg-gray-100 flex items-center justify-center text-red-600 hover:text-red-800"

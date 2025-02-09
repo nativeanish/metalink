@@ -183,8 +183,17 @@ function Editor() {
         <p className="text-white font-bold mt-3">{text}</p>
       </ModalAlert>
       <nav className="flex items-center justify-between mb-4 relative z-10">
-        <div className="text-2xl font-bold bg-black text-white px-4 py-2">
-          <span className="text-yellow-300">META</span>Link
+        <div className="flex flex-row gap-x-1">
+          <div>
+            <img
+              src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
+              height="50px"
+              width="50px"
+            />
+          </div>
+          <div className="text-2xl font-bold bg-black text-white px-4 py-2 flex items-center justify-center">
+            <span className="text-yellow-300">Meta</span>Links
+          </div>
         </div>
         <ConnectButton />
       </nav>

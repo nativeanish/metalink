@@ -4,7 +4,8 @@ import GlitchText from "../../components/Glitch";
 import { glitchText } from "../../utils/glitchEffect";
 import "../../components/Glitch/style.css";
 import AvailabilityModal from "../../components/AvailabilityModal";
-import { FaDiscord, FaGithub, FaTwitter } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 
 const handles = [
   "permadao.io",
@@ -162,15 +163,17 @@ export default function Index() {
       </div>
 
       <nav className="flex items-center justify-between mb-20 relative z-10">
-        {/* <div className="text-2xl font-bold bg-black text-white px-4 py-2">
-          <span className="text-yellow-300">Meta</span>Links
-        </div> */}
-        <div>
-          <img
-            src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
-            height="50px"
-            width="50px"
-          />
+        <div className="flex flex-row gap-x-1">
+          <div>
+            <img
+              src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
+              height="50px"
+              width="50px"
+            />
+          </div>
+          <div className="text-2xl font-bold bg-black text-white px-4 py-2 flex items-center justify-center">
+            <span className="text-yellow-300">Meta</span>Links
+          </div>
         </div>
         <ConnectButton />
       </nav>
@@ -236,17 +239,17 @@ export default function Index() {
       </div>
       <footer className="w-full  py-8 mt-auto">
         <div className="container px-4 mx-auto">
-          <div className="flex flex-col items-center justify-center space-y-4">
+          <div className="flex flex-col items-end justify-center space-y-4">
             <div className="flex items-center space-x-6">
               <a href="https://github.com/nativeanish/metalink" target="_blank">
                 <FaGithub className="w-6 h-6" />
               </a>
-              <a href="">
-                <FaTwitter className="w-6 h-6" />
+              <a href="https://x.com/metalinks_ar" target="_blank">
+                <FaXTwitter className="w-6 h-6" />
               </a>
-              <a href="">
+              {/* <a href="">
                 <FaDiscord className="w-6 h-6" />
-              </a>
+              </a> */}
             </div>
           </div>
         </div>

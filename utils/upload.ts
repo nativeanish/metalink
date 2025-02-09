@@ -71,13 +71,6 @@ export default async function upload(
       useCounter.setState({ counter: 4 });
       try {
         const res = await register(uuid, arns, theme, check);
-        // try {
-        //   const chec = await fetch(`${SERVER_URL}/register`, {
-        //     method: "POST",
-        //     headers: { "Content-Type": "application/json" },
-        //     body: JSON.stringify({ subdomain: arns, id: check }),
-        //   });
-        //   const res = await chec.json();
         if (!res) {
           setAlert(true);
           setError("Error on Registering on Arns. Redirecting to Dashboard");

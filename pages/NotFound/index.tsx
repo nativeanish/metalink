@@ -56,8 +56,17 @@ export default function NotFound() {
     <div className="min-h-screen bg-yellow-300 p-6 font-mono">
       {/* Header */}
       <nav className="flex items-center justify-between mb-20">
-        <div className="text-2xl font-bold bg-black text-white px-4 py-2">
-          <span className="text-yellow-300">META</span>Link
+        <div className="flex flex-row gap-x-1">
+          <div>
+            <img
+              src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
+              height="50px"
+              width="50px"
+            />
+          </div>
+          <div className="text-2xl font-bold bg-black text-white px-4 py-2 flex items-center justify-center">
+            <span className="text-yellow-300">Meta</span>Links
+          </div>
         </div>
         <ConnectButton />
       </nav>

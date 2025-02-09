@@ -1,7 +1,7 @@
 export default class ShareButton {
   private button: HTMLButtonElement;
   private modal: HTMLDivElement;
-  private shareLinks: { name: string; href: string }[];
+  private shareLinks: { name: string; href: string, color: string, logo?: string }[];
   private currentURL: string;
 
   constructor() {
@@ -14,42 +14,40 @@ export default class ShareButton {
         href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
           this.currentURL
         )}`,
+        color: "#1877F2",
+        logo: "T3cPbe1wogKONByXwP_GqmsTOeRyZxYNC0hCeotP6Qs"
       },
       {
-        name: "Twitter",
+        name: "X",
         href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
           this.currentURL
         )}&text=Check out this page!`,
-      },
-      {
-        name: "LinkedIn",
-        href: `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(
-          this.currentURL
-        )}&title=Check out this page!`,
+        color: "#000000",
+        logo: "FlxhHjT8Hig4pvh8yFK6gg6PgEb9orNBMA5zGpHJx6Y"
       },
       {
         name: "WhatsApp",
         href: `https://wa.me/?text=${encodeURIComponent(
           `Check out this page! ${this.currentURL}`
         )}`,
-      },
-      {
-        name: "Pinterest",
-        href: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(
-          this.currentURL
-        )}&description=Check out this page!`,
+        color: "#25D366",
+        logo: "A_gJXmJAtBNa5WMaNZuSN2mfu1tNpEe0GNObygVUuKE"
       },
       {
         name: "Reddit",
         href: `https://reddit.com/submit?url=${encodeURIComponent(
           this.currentURL
         )}&title=Check out this page!`,
+        color: "#FF4500",
+        logo: "d_4_nfNJCU6OMMMOqtXJTj7-wNhOt0Vp8q_yvsZKnnk"
       },
       {
         name: "Telegram",
         href: `https://t.me/share/url?url=${encodeURIComponent(
           this.currentURL
         )}&text=Check out this page!`,
+        color: "#0088CC",
+        logo: "B-j3PSqKE6fjbHZXXnVT3viwr9TuyV5jFgvZRvKkjw0"
       },
       {
         name: "Email",
@@ -58,6 +56,8 @@ export default class ShareButton {
         )}&body=${encodeURIComponent(
           `I found this page interesting and thought you might like it: ${this.currentURL}`
         )}`,
+        color: "#D14836",
+        logo: "srFV9JgSe_WsAVaThnQ06ZE77R8m1dQ-aVwsgW8syrk"
       },
     ];
 
@@ -78,17 +78,18 @@ export default class ShareButton {
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Share this page</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           ${this.shareLinks
-            .map(
-              (link) => `
+        .map(
+          (link) => `
             <a href="${link.href}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 px-3 rounded-full transition duration-300 ease-in-out">
-            <span class="text-sm">${link.name}</span>
+             <img src="https://arweave.net/${link.logo}" width="20px" height="20px" class="text-[${link.color}]" /> 
+            <span class="text-sm text-[${link.color}]">${link.name}</span>
             </a>
           `
-            )
-            .join("")}
+        )
+        .join("")}
         </div>
-        <button id="copyLink" class="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">
-          🔗 Copy Link
+        <button id="copyLink" class="w-full flex items-center justify-center gap-x-2 mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">
+          <img src="https://arweave.net/Y3YQpZK9WPgWT8kqC35X8ZDK7ikVq4cpPUmPA95gMuA" width="20px" height="20px" /> Copy Link
         </button>
       </div>
     `;
