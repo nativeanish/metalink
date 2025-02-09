@@ -1,2 +1,2 @@
-export const SITE_NAME = "METALink";
-export const PROCESS = "nMM8c6RbcZ-ZXwhM2jVPOfDpT2cGTu-JHT7fFx05_iQ";
+export const SITE_NAME = "MetaLinks";
+export const PROCESS = "FHE6jw1z5F5-fl8pC0SGnZYVIqIlktdVSDHVGnYeUyo";

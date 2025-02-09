@@ -2,7 +2,7 @@ State = State or {}
 View = View or {}
 Click = Click or {}
 local json = require("json")
-local ARNS = "WtdOKFeXCLPbl3QESUuICvKdiLLlBTp04SVWCQUC__w"
+local ARNS = "TUQtUAuQwQxq-r0uxQNyiqVZF2qKE-bR0nrnOVN_MVM"
 
 local function isNamePresent(name)
   for _, states in pairs(State) do

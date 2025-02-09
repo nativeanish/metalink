@@ -64,7 +64,7 @@ export default function NotFound() {
               width="50px"
             />
           </div>
-          <div className="text-2xl font-bold bg-black text-white px-4 py-2 flex items-center justify-center">
+          <div className="hidden md:flex text-2xl font-bold bg-black text-white px-4 py-2 items-center justify-center">
             <span className="text-yellow-300">Meta</span>Links
           </div>
         </div>

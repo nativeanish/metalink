@@ -124,7 +124,7 @@ function Publish() {
               width="50px"
             />
           </div>
-          <div className="text-2xl font-bold bg-black text-white px-4 py-2 flex items-center justify-center">
+          <div className="hidden md:flex text-2xl font-bold bg-black text-white px-4 py-2 items-center justify-center">
             <span className="text-yellow-300">Meta</span>Links
           </div>
         </div>
@@ -164,7 +164,7 @@ function Publish() {
             text={[
               arnsName.startsWith("@")
                 ? `${arnsName}.ar.io`
-                : `${arnsName}_metpaths.ar.io`,
+                : `${arnsName}_metalinks.ar.io`,
               "is published.",
               "Redirecting to page",
               "and analytics page",

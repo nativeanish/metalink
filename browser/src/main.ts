@@ -3,7 +3,7 @@ import ShareButton from "./share";
 import { uuidv7 } from "uuidv7";
 import { message } from "@permaweb/aoconnect";
 import { ArweaveSigner, createData } from "warp-arbundles";
-const PROCESS = "nMM8c6RbcZ-ZXwhM2jVPOfDpT2cGTu-JHT7fFx05_iQ";
+const PROCESS = "FHE6jw1z5F5-fl8pC0SGnZYVIqIlktdVSDHVGnYeUyo";
 export const self = "https://metalinks.ar.io";
 declare global {
   interface Window {
