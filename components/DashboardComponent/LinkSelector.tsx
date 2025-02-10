@@ -90,7 +90,7 @@ export function LinkSelector({
                 window.open(`https://${selectedLink.name}.ar.io`, "_blank");
               } else {
                 window.open(
-                  `https://${selectedLink.name}_metapaths.ar.io`,
+                  `https://${selectedLink.name}_metalinks.ar.io`,
                   "_blank"
                 );
               }
