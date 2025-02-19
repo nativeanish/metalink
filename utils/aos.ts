@@ -18,7 +18,7 @@ export async function register(
   name: string,
   design: string,
   upload_id: string,
-  status: true | false
+  _: true | false
 ) {
   const isEdit = useEdit.getState().isEdit;
   if (name.startsWith("@")) {
@@ -79,8 +79,7 @@ export async function register(
     data: JSON.stringify(profile),
   });
   const res = await result({ process: PROCESS, message: trans });
-  console.log(res.Messages)
-  if (res.Messages[1].Data === "Added" || res.Messages[1].Data === "updated") {
+  if (res.Messages[0].Data === "Added" || res.Messages[1].Data === "Updated" || res.Messages[1].Data === "Added" || res.Messages[0].Data === "Updated") {
     return true;
   } else {
     return false;
