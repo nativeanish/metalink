@@ -125,6 +125,65 @@ Handlers.add("get_click", Handlers.utils.hasMatchingTag("Action", "get_click"), 
   Handlers.utils.reply(json.encode({ status = 1, data = send }))(msg)
 end)
 
+
+Handlers.add("get_user_details", Handlers.utils.hasMatchingTag("Action", "get_user_details"), function(msg)
+  assert(msg.Tags.address ~= nil, "No address found")
+  local result = {}
+
+  -- Get states only for msg.From
+  local states = State[msg.Tags.address]
+  if not states then
+    Handlers.utils.reply(json.encode({ status = 0, data = "No data found" }))(msg)
+    return
+  end
+
+  -- Iterate through user's states
+  for _, state in ipairs(states) do
+    local stateData = {
+      id = state.id,
+      data = state.data,
+      name = state.name,
+      design = state.design,
+      views = {}
+    }
+
+    -- Add views for each state
+    if View[state.id] then
+      for _, view in ipairs(View[state.id]) do
+        local viewData = {
+          id = view.id,
+          date = view.date,
+          browser = view.browser,
+          os = view.os,
+          ip = view.ip,
+          timezone = view.timezone,
+          loadtime = view.loadtime,
+          wallet = view.wallet,
+          name = view.name,
+          clicks = {}
+        }
+
+        -- Add clicks for each view
+        if Click[view.id] then
+          for _, click in ipairs(Click[view.id]) do
+            table.insert(viewData.clicks, {
+              id = click.id,
+              date = click.date,
+              name = click.name
+            })
+          end
+        end
+
+        table.insert(stateData.views, viewData)
+      end
+    end
+
+    table.insert(result, stateData)
+  end
+
+  Handlers.utils.reply(json.encode({ status = 1, data = result }))(msg)
+end)
+
 Handlers.add("register_view", Handlers.utils.hasMatchingTag("Action", "register_view"), function(msg)
   assert(type(msg.Tags.id) ~= "nil", "No id found")
   assert(type(msg.Tags.pageid) ~= "nil", "No page id found")

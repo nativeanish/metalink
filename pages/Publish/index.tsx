@@ -98,7 +98,8 @@ function Publish() {
     if (currentStep === 5) {
       setTimeout(() => {
         useEdit.getState().setIsEdit(false);
-        navigate("/dashboard");
+        sessionStorage.setItem("redirectTrue", "true");
+        window.location.reload();
       }, 4000);
     }
   }, [navigate, currentStep, arnsName]);

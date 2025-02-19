@@ -79,6 +79,10 @@ export async function register(
     data: JSON.stringify(profile),
   });
   const res = await result({ process: PROCESS, message: trans });
+  console.log(res)
+  if (res.Messages[0].Data === "Maximum limit reached. Cannot create more links.") {
+    throw new Error("Maximum limit reached. Cannot create more links.")
+  }
   if (res.Messages[0].Data === "Added" || res.Messages[1].Data === "Updated" || res.Messages[1].Data === "Added" || res.Messages[0].Data === "Updated") {
     return true;
   } else {
@@ -114,101 +118,54 @@ export const get_state = async (address: string) => {
   const awas = await dryrun({
     process: PROCESS,
     tags: [
-      { name: "Action", value: "get_State" },
-      { name: "id", value: address },
+      { name: "Action", value: "get_user_details" },
+      { name: "address", value: address },
     ],
   });
   const state: {
     status: 0 | 1;
     data:
     | string
-    | Array<{ data: string; design: string; id: string; name: string }>;
+    | Array<{
+      data: string, design: string, id: string, name: string, views: Array<{
+        browser: string;
+        date: string;
+        id: string;
+        ip: string;
+        loadtime: string;
+        name: string;
+        os: string;
+        timezone: string;
+        wallet: string;
+        clicks: Array<{
+          name: string; id: string; date: string
+        }>;
+      }>
+    }>;
   } = JSON.parse(awas.Messages[0].Data);
-  if (state.status && typeof state.data !== "string") {
-    for (let i = 0; i < state.data.length; i++) {
-      const element = state.data[i];
-      useData.getState().setState({
-        data: element.data,
-        design: element.design,
-        id: element.id,
-        name: element.name,
-        views: [],
-      });
-      const res = await dryrun({
-        process: PROCESS,
-        tags: [
-          { name: "Action", value: "get_view" },
-          { name: "id", value: element.id },
-        ],
-      });
-      const data: {
-        status: 0 | 1;
-        data:
-        | Array<{
-          browser: string;
-          date: string;
-          id: string;
-          ip: string;
-          loadtime: string;
-          name: string;
-          os: string;
-          timezone: string;
-          wallet: string;
-        }>
-        | string;
-      } = JSON.parse(res.Messages[0].Data);
-      if (data.status && typeof data.data !== "string") {
-        for (let j = 0; j < data.data.length; j++) {
-          const viewElement = data.data[j];
-          useData.getState().setView(element.id, {
-            browser: viewElement.browser,
-            date: viewElement.date,
-            id: JSON.stringify(j + 1),
-            originalId: viewElement.id,
-            ip: viewElement.ip,
-            loadtime: viewElement.loadtime,
-            name: viewElement.name,
-            os: viewElement.os,
-            timezone: viewElement.timezone,
-            wallet: viewElement.wallet,
-            clicks: [],
-          });
-          const res = await dryrun({
-            process: PROCESS,
-            tags: [
-              {
-                name: "Action",
-                value: "get_click",
-              },
-              {
-                name: "id",
-                value: viewElement.id,
-              },
-            ],
-          });
-          const click: {
-            status: 0 | 1;
-            data: string | Array<{ name: string; id: string; date: string }>;
-          } = JSON.parse(res.Messages[0].Data);
-          if (click.status === 1 && typeof click.data !== "string") {
-            for (const clickElement of click.data) {
-              useData.getState().setClick(element.id, JSON.stringify(j + 1), {
-                name: clickElement.name,
-                id: clickElement.id,
-                date: clickElement.date,
-              });
-            }
-          }
-        }
-      }
-    }
+  if (state.data && Array.isArray(state.data)) {
+    const transformedData = state.data.map(item => {
+      let viewCounter = 1;
+      return {
+        ...item,
+        views: item.views.map(view => ({
+          ...view,
+          id: String(viewCounter++),
+          originalId: view.id,
+          clicks: view.clicks?.map(click => ({
+            ...click,
+            name: click.name || 'Share'
+          })) || []
+        }))
+      };
+    });
+    useData.setState({ state: transformedData })
   }
 };
 
 export const delete_page = async (id: string) => {
   try {
     const type = useAddress.getState().type;
-
     const txn = await message({
       process: PROCESS,
       signer:

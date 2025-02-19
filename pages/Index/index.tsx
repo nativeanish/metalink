@@ -6,6 +6,8 @@ import "../../components/Glitch/style.css";
 import AvailabilityModal from "../../components/AvailabilityModal";
 import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
+import useAddress from "../../store/useAddress";
+import { useNavigate } from "react-router-dom";
 
 const handles = [
   "permadao.io",
@@ -106,7 +108,17 @@ export default function Index() {
   const [glitchText3, setGlitchText3] = useState("Decentralized.");
   const [glitchComplete, setGlitchComplete] = useState(false);
   const [show, setShow] = useState(false);
-
+  const navigate = useNavigate();
+  const address = useAddress((state) => state.address);
+  useEffect(() => {
+    if (address && address.length > 0) {
+      const data = sessionStorage.getItem("redirectTrue");
+      if (data === "true") {
+        sessionStorage.removeItem("redirectTrue");
+        navigate("/dashboard");
+      }
+    }
+  }, [address]);
   // Handle rotation effect
   useEffect(() => {
     const interval = setInterval(() => {

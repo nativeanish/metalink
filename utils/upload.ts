@@ -32,7 +32,6 @@ export default async function upload(
     const uuid = uuidv7();
     const image = useProfile.getState().image;
     const src = useProfile.getState().image_type;
-    console.log(image, src)
     if (
       image &&
       image.length > 0 &&
@@ -69,7 +68,6 @@ export default async function upload(
       uuid: isEdit && _uuid && _uuid.length > 0 ? _uuid : uuid,
     });
     const html = `<!DOCTYPE html><html lang="en"><head>${metaTags}</head><body>${page}</body></html>`;
-    console.log(metaTags)
     useCounter.setState({ counter: 3 });
     try {
       const check = await turbo(html, "text/html");
@@ -85,9 +83,9 @@ export default async function upload(
         useEdit.setState({ isEdit: false });
         useCounter.setState({ counter: 5 });
       } catch (err) {
-        console.log(err);
+        console.log(err as unknown as string);
         setAlert(true);
-        setError("Error in Writing on Process. Redirecting to Dashboard");
+        setError(`Error in Writing on Process. ${err as string}`);
         return;
       }
     } catch (e) {
