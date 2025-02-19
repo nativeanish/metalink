@@ -8,6 +8,7 @@ import { FaGithub } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import useAddress from "../../store/useAddress";
 import { useNavigate } from "react-router-dom";
+import BrutalistCarousel from "../../components/Card/Inex";
 
 const handles = [
   "permadao.io",
@@ -249,6 +250,7 @@ export default function Index() {
           </div>
         </div>
       </div>
+      <BrutalistCarousel />
       <footer className="w-full  py-8 mt-auto">
         <div className="container px-4 mx-auto">
           <div className="flex flex-col items-end justify-center space-y-4">
@@ -259,9 +261,6 @@ export default function Index() {
               <a href="https://x.com/metalinks_ar" target="_blank">
                 <FaXTwitter className="w-6 h-6" />
               </a>
-              {/* <a href="">
-                <FaDiscord className="w-6 h-6" />
-              </a> */}
             </div>
           </div>
         </div>
