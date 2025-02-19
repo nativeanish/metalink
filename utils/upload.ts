@@ -13,15 +13,18 @@ export default async function upload(
 ) {
   useArns.setState({ loading: true });
   const isEdit = useEdit.getState().isEdit;
-  if (isEdit) {
-    useCounter.setState({ counter: 1 });
-  }
   const arns = useArns.getState().arns;
   let resp = false;
-  if (arns.startsWith("@")) {
+  console.log(isEdit)
+  if (isEdit) {
+    useCounter.setState({ counter: 1 });
     resp = true;
   } else {
-    resp = isEdit ? true : await check_name(arns);
+    if (arns.startsWith("@")) {
+      resp = true;
+    } else {
+      resp = isEdit ? true : await check_name(arns);
+    }
   }
   useArns.setState({ loading: false });
   if (resp) {
@@ -29,6 +32,7 @@ export default async function upload(
     const uuid = uuidv7();
     const image = useProfile.getState().image;
     const src = useProfile.getState().image_type;
+    console.log(image, src)
     if (
       image &&
       image.length > 0 &&
@@ -60,17 +64,19 @@ export default async function upload(
       return;
     }
     const _uuid = useEdit.getState().uuid;
+    console.log(_uuid)
     const metaTags = generateMetaTags({
       uuid: isEdit && _uuid && _uuid.length > 0 ? _uuid : uuid,
     });
     const html = `<!DOCTYPE html><html lang="en"><head>${metaTags}</head><body>${page}</body></html>`;
+    console.log(metaTags)
     useCounter.setState({ counter: 3 });
     try {
       const check = await turbo(html, "text/html");
       console.log(check);
       useCounter.setState({ counter: 4 });
       try {
-        const res = await register(uuid, arns, theme, check);
+        const res = await register(uuid, arns, theme, check, isEdit);
         if (!res) {
           setAlert(true);
           setError("Error on Registering on Arns. Redirecting to Dashboard");

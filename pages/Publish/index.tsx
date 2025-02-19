@@ -43,15 +43,19 @@ function Publish() {
       navigate("/theme");
     }
   }, [theme, navigate]);
-  // const isEdit = useEdit((state) => state.isEdit);
-  // useEffect(() => {
-  //   if (!isEdit) {
-  //     if (arnsName) {
-  //       setCurrentStep(1);
-  //       upload(theme!, setIsAlertOpen, setError).then().catch(console.error);
-  //     }
-  //   }
-  // }, [isEdit, arnsName, setCurrentStep]);
+  const isEdit = useEdit((state) => state.isEdit);
+  useEffect(() => {
+    if (isEdit) {
+      if (arnsName) {
+        setCurrentStep(1);
+        upload(theme!, setIsAlertOpen, setError).then().catch(console.error);
+      }
+    }
+  }, [isEdit, arnsName, setCurrentStep]);
+  useEffect(() => {
+    console.log(isEdit);
+    console.log(arnsName);
+  }, []);
   const address = useAddress((state) => state.address);
   const fetchroot = async () => {
     setPrimary(true);
@@ -93,18 +97,11 @@ function Publish() {
   useEffect(() => {
     if (currentStep === 5) {
       setTimeout(() => {
-        if (arnsName.startsWith("@")) {
-          navigate("/dashboard");
-        } else {
-          navigate("/dashboard");
-        }
+        useEdit.getState().setIsEdit(false);
+        navigate("/dashboard");
       }, 4000);
     }
   }, [navigate, currentStep, arnsName]);
-  useEffect(() => {
-    setCurrentStep(0);
-    useEdit.setState({ isEdit: false });
-  }, [setCurrentStep, setArnsName]);
   useEffect(() => {
     if (isAlertOpen && eroor.length > 0) {
       setTimeout(() => {

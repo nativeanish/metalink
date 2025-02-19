@@ -5,6 +5,7 @@ import useAddress from "../../store/useAddress";
 import { get_state } from "../../utils/aos";
 import useEdit from "../../store/useEdit";
 import AnimatedBackground from "../../components/AnimatedBackground";
+import useArns from "../../store/useArns";
 
 function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,6 +27,11 @@ function Dashboard() {
   useEffect(() => {
     setIsEdit(false);
   }, [setIsEdit]);
+
+  useEffect(() => {
+    useArns.setState({ arns: "" });
+    useEdit.setState({ isEdit: false, uuid: undefined });
+  }, []);
 
   useEffect(() => {
     fetchData();

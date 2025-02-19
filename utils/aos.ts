@@ -11,13 +11,16 @@ import useAddress from "../store/useAddress";
 import { ethers } from "ethers";
 import { createData, InjectedEthereumSigner } from "arbundles/web";
 import { ANT, ArconnectSigner, ARIO } from "@ar.io/sdk";
+import useEdit from "../store/useEdit";
 
 export async function register(
   uuid: string,
   name: string,
   design: string,
-  upload_id: string
+  upload_id: string,
+  status: true | false
 ) {
+  const isEdit = useEdit.getState().isEdit;
   if (name.startsWith("@")) {
     const ario = ARIO.init({})
     const info = await ario.getPrimaryName({ address: useAddress.getState().address! })
@@ -54,7 +57,7 @@ export async function register(
     tags: [
       {
         name: "Action",
-        value: "register",
+        value: isEdit ? "update" : "register",
       },
       {
         name: "id",
@@ -76,7 +79,8 @@ export async function register(
     data: JSON.stringify(profile),
   });
   const res = await result({ process: PROCESS, message: trans });
-  if (res.Messages[1].Data === "Added") {
+  console.log(res.Messages)
+  if (res.Messages[1].Data === "Added" || res.Messages[1].Data === "updated") {
     return true;
   } else {
     return false;

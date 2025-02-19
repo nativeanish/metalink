@@ -19,9 +19,10 @@ export default class ShareButton {
       },
       {
         name: "X",
-        href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-          this.currentURL
-        )}&text=Check out this page!`,
+        href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          `Check out my decentralized link page 👉 ${this.currentURL}\n\nOwn your content, control your presence. No intermediaries, just pure web3 freedom.\n\nPowered by @metalinks_ar & @ar_io_network`
+        )}`,
+
         color: "#000000",
         logo: "FlxhHjT8Hig4pvh8yFK6gg6PgEb9orNBMA5zGpHJx6Y"
       },

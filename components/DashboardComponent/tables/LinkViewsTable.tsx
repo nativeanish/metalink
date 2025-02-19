@@ -29,7 +29,7 @@ const columns = [
             .join(" ")
         : "None",
   },
-  { header: "IP Address", accessor: "ip" as const },
+  // { header: "IP Address", accessor: "ip" as const },
 ];
 
 interface LinkViewsTableProps {

@@ -51,6 +51,10 @@ export default function DashboardChild({
     setSelectedLink(link);
     setIsDropdownOpen(false);
   };
+  useEffect(() => {
+    setedit(false);
+    setUUid("");
+  }, []);
   const setedit = useEdit((state) => state.setIsEdit);
   const setUUid = useEdit((state) => state.setUUid);
   const onRemove = useData((state) => state.onRemove);

@@ -24,6 +24,18 @@ Handlers.add("register", Handlers.utils.hasMatchingTag("Action", "register"), fu
   if State[msg.From] == nil then
     State[msg.From] = {}
   end
+  -- Preventing Spams
+  if #State[msg.From] >= 2 then
+    Handlers.utils.reply("Maximum limit reached. Cannot create more links.")(msg)
+    return
+  end
+
+  -- Check if name exists but belongs to different user
+  if isNamePresent(msg.Tags.name) then
+    Handlers.utils.reply("Name already taken by another user")(msg)
+    return
+  end
+
   ao.send({
     Target = ARNS,
     Action = "Set-Record",
@@ -33,6 +45,36 @@ Handlers.add("register", Handlers.utils.hasMatchingTag("Action", "register"), fu
   })
   table.insert(State[msg.From], { id = msg.Tags.id, data = msg.Data, name = msg.Tags.name, design = msg.Tags.design })
   Handlers.utils.reply("Added")(msg)
+end)
+
+Handlers.add("update", Handlers.utils.hasMatchingTag("Action", "update"), function(msg)
+  assert(type(msg.Tags.id) ~= "nil", "No id tag found")
+  assert(type(msg.Data) ~= "nil", "No data found")
+  assert(type(msg.Tags.name) ~= "nil", "No name found")
+  assert(type(msg.Tags.design) ~= "nil", "No Design found")
+  assert(type(msg.Tags.transId) ~= "nil", "No Uploaded Content Found")
+  local db = State[msg.From]
+  if db == nil then
+    Handlers.utils.reply("Not found")(msg)
+    return
+  end
+  for _, v in ipairs(db) do
+    if v.name == msg.Tags.name then
+      v.data = msg.Data
+      v.name = msg.Tags.name
+      v.design = msg.Tags.design
+      ao.send({
+        Target = ARNS,
+        Action = "Set-Record",
+        ["Sub-Domain"] = msg.Tags.name,
+        ["Transaction-Id"] = msg.Tags.transId,
+        ["TTL-Seconds"] = "3600"
+      })
+      Handlers.utils.reply("Updated")(msg)
+      return
+    end
+  end
+  Handlers.utils.reply("Not found")(msg)
 end)
 
 Handlers.add("check", Handlers.utils.hasMatchingTag("Action", "check"), function(msg)
@@ -138,6 +180,14 @@ Handlers.add("delete", Handlers.utils.hasMatchingTag("Action", "delete"), functi
   for i, v in ipairs(db) do
     if v.id == msg.Tags.id then
       table.remove(db, i)
+      -- Delete associated views
+      if View[msg.Tags.id] then
+        View[msg.Tags.id] = nil
+      end
+      -- Delete associated clicks
+      if Click[msg.Tags.id] then
+        Click[msg.Tags.id] = nil
+      end
       Handlers.utils.reply("Deleted")(msg)
       ao.send({
         Target = ARNS,
