@@ -24,6 +24,7 @@ import DotPage from "../../theme/DotPage";
 import { ANT, ArconnectSigner, ARIO } from "@ar.io/sdk";
 import { ModalAlert } from "../../components/ModalAlert";
 import ArNS from "../../Image/ArNS";
+import { GrFormView } from "react-icons/gr";
 
 function Editor() {
   const [searchParams] = useSearchParams();
@@ -48,6 +49,8 @@ function Editor() {
   const address = useAddress((state) => state.address);
   const [show, setShow] = useState(false);
   const [text, setText] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+
   const fetchens = async () => {
     if (
       type === "metamask" &&
@@ -168,92 +171,22 @@ function Editor() {
     }
   }, [text]);
   return (
-    <div
-      id="main"
-      className="h-screen bg-yellow-300 p-6 font-mono relative overflow-hidden flex flex-col"
-    >
-      <ModalAlert
-        isOpen={show}
-        title="Fetching Details from ArNS"
-        onClose={() => {
-          setShow(false);
-        }}
-        color={text.startsWith("Error") ? "bg-red-500" : "bg-blue-500"}
+    <div>
+      <button
+        className="right-0 top-1/2 absolute z-50 p-1 border-black border-2 text-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] md:hidden"
+        onClick={() => setShowPreview(true)}
       >
-        <p className="text-white font-bold mt-3">{text}</p>
-      </ModalAlert>
-      <nav className="flex items-center justify-between mb-4 relative z-10">
-        <div className="flex flex-row gap-x-1">
-          <div>
-            <img
-              src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
-              height="50px"
-              width="50px"
-            />
-          </div>
-          <div className="hidden md:flex text-2xl font-bold bg-black text-white px-4 py-2 items-center justify-center">
-            <span className="text-yellow-300">Meta</span>Links
-          </div>
-        </div>
-        <ConnectButton />
-      </nav>
-      <div className="flex flex-1 gap-6 overflow-hidden">
-        {/* Left Panel - 25% */}
-        <div className="w-1/4 flex flex-col gap-6  border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-auto bg-white items-center">
-          <h2 className="text-2xl font-bold uppercase border-b-4 border-black pb-4">
-            Edit Content
-          </h2>
-          <ImageUploader />
-          {type === "metamask" && (
-            <div>
-              <button
-                className="flex items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center gap-x-2 border-2 border-black bg-white p-2
-                     font-mono font-bold transition-all duration-200 hover:-translate-y-0.5 
-                     hover:bg-gray-200 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
-                onClick={() => fetchens()}
-              >
-                <ENS />
-                <div>Fetch from ENS</div>
-              </button>
-            </div>
-          )}
-          {type === "arconnect" && (
-            <div>
-              <button
-                className="flex items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center gap-x-2 border-2 border-black bg-white p-2
-                     font-mono font-bold transition-all duration-200 hover:-translate-y-0.5 
-                     hover:bg-gray-200 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
-                onClick={() => fetchArns()}
-              >
-                <ArNS />
-                <div>Fetch from ArNS</div>
-              </button>
-            </div>
-          )}
-          <Input value={name} onChange={(e) => setName(e)} width="w-full" />
-          <TextArea
-            value={description}
-            onChange={(e) => setDescription(e)}
-            width="w-full"
-          />
-          <SearchBar />
-          {link.map((l, e) => (
-            <LinkDisplay key={e} id={l.uuid} />
-          ))}
+        <GrFormView className="h-6 w-6" />
+      </button>
+      {showPreview && (
+        <div className="fixed inset-0 bg-white z-50 flex flex-col">
           <button
-            onClick={() => navigate(`/publish?theme=${theme?.title}`)}
-            className="flex w-full items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center gap-x-2 border-2 border-black bg-yellow-300 p-2
-                     font-mono font-bold transition-all duration-200 hover:-translate-y-0.5 
-                     hover:bg-yellow-400 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
+            className="self-end p-2 border-black border-2 text-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            onClick={() => setShowPreview(false)}
           >
-            <FaUpload className="h-4 w-4" />
-            Upload
+            Minimize
           </button>
-        </div>
-
-        {/* Right Panel - 75% */}
-        <div className="w-3/4 overflow-auto relative z-0">
-          <DeviceMockup _view={view || "mobile"}>
+          <DeviceMockup _view="mobile" isMobile={true}>
             {theme?.title === "BentoDark" && (
               <BentoDark
                 name={name}
@@ -303,6 +236,143 @@ function Editor() {
               />
             )}
           </DeviceMockup>
+        </div>
+      )}
+      <div
+        id="main"
+        className="h-screen bg-yellow-300 p-6 font-mono relative overflow-hidden flex flex-col"
+      >
+        <ModalAlert
+          isOpen={show}
+          title="Fetching Details from ArNS"
+          onClose={() => {
+            setShow(false);
+          }}
+          color={text.startsWith("Error") ? "bg-red-500" : "bg-blue-500"}
+        >
+          <p className="text-white font-bold mt-3">{text}</p>
+        </ModalAlert>
+        <nav className="flex items-center justify-between mb-4 relative z-10">
+          <div className="flex flex-row gap-x-1">
+            <div>
+              <img
+                src="https://arweave.net/agbO1BwHs9M8b68eMxeWNZP4eLt3Zsb2zXwNyTzjbYU"
+                height="50px"
+                width="50px"
+              />
+            </div>
+            <div className="hidden md:flex text-2xl font-bold bg-black text-white px-4 py-2 items-center justify-center">
+              <span className="text-yellow-300">Meta</span>Links
+            </div>
+          </div>
+          <ConnectButton />
+        </nav>
+        <div className="flex flex-1 gap-6 overflow-hidden">
+          {/* Left Panel - 25% */}
+          <div className="w-full md:w-1/4 flex flex-col gap-6 border-4 border-black p-6 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-auto bg-white items-center">
+            <h2 className="text-2xl font-bold uppercase border-b-4 border-black pb-4">
+              Edit Content
+            </h2>
+            <ImageUploader />
+            {type === "metamask" && (
+              <div>
+                <button
+                  className="flex items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center gap-x-2 border-2 border-black bg-white p-2
+               font-mono font-bold transition-all duration-200 hover:-translate-y-0.5 
+               hover:bg-gray-200 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
+                  onClick={() => fetchens()}
+                >
+                  <ENS />
+                  <div>Fetch from ENS</div>
+                </button>
+              </div>
+            )}
+            {type === "arconnect" && (
+              <div>
+                <button
+                  className="flex items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center gap-x-2 border-2 border-black bg-white p-2
+               font-mono font-bold transition-all duration-200 hover:-translate-y-0.5 
+               hover:bg-gray-200 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
+                  onClick={() => fetchArns()}
+                >
+                  <ArNS />
+                  <div>Fetch from ArNS</div>
+                </button>
+              </div>
+            )}
+            <Input value={name} onChange={(e) => setName(e)} width="w-full" />
+            <TextArea
+              value={description}
+              onChange={(e) => setDescription(e)}
+              width="w-full"
+            />
+            <SearchBar />
+            {link.map((l, e) => (
+              <LinkDisplay key={e} id={l.uuid} />
+            ))}
+            <button
+              onClick={() => navigate(`/publish?theme=${theme?.title}`)}
+              className="flex w-full items-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] justify-center gap-x-2 border-2 border-black bg-yellow-300 p-2
+               font-mono font-bold transition-all duration-200 hover:-translate-y-0.5 
+               hover:bg-yellow-400 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0"
+            >
+              <FaUpload className="h-4 w-4" />
+              Upload
+            </button>
+          </div>
+          {/* Right Panel - 75% */}
+          <div className="w-3/4 overflow-auto relative z-0 hidden md:block">
+            <DeviceMockup _view={view || "mobile"}>
+              {theme?.title === "BentoDark" && (
+                <BentoDark
+                  name={name}
+                  description={description}
+                  image={image}
+                  links={link}
+                />
+              )}
+              {theme?.title === "classicLight" && (
+                <ClassicLight
+                  name={name}
+                  description={description}
+                  image={image}
+                  links={link}
+                />
+              )}
+              {theme?.title === "classicDark" && (
+                <ClassicDark
+                  name={name}
+                  description={description}
+                  image={image}
+                  links={link}
+                />
+              )}
+              {theme?.title === "classicBrut" && (
+                <ClassicBrut
+                  name={name}
+                  description={description}
+                  image={image}
+                  links={link}
+                />
+              )}
+              {theme?.title === "BentoLight" && (
+                <BentoLight
+                  name={name}
+                  description={description}
+                  image={image}
+                  links={link}
+                />
+              )}
+              {theme?.title === "dotpage" && (
+                <DotPage
+                  name={name}
+                  description={description}
+                  image={image}
+                  links={link}
+                />
+              )}
+            </DeviceMockup>
+          </div>
         </div>
       </div>
     </div>

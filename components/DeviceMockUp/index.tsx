@@ -5,11 +5,13 @@ interface MobileDeviceMockupProps {
   children: React.ReactNode;
   deviceColor?: "black" | "white" | "gold";
   _view?: string;
+  isMobile?: boolean;
 }
 
 const DeviceMockup: React.FC<MobileDeviceMockupProps> = ({
   children,
   _view,
+  isMobile,
 }) => {
   const [view, setView] = useState<"desktop" | "mobile" | null>(null);
   useEffect(() => {
@@ -25,39 +27,39 @@ const DeviceMockup: React.FC<MobileDeviceMockupProps> = ({
     <div className="w-full h-full flex flex-col">
       {/* Device Frame */}
       <div className="flex-1 border-4 border-black bg-white p-4">
-        {/* Window Controls */}
-        <div className="flex items-center gap-2 mb-4 border-b-4 border-black pb-4">
-          <div className="w-4 h-4 rounded-full bg-red-500 border-2 border-black"></div>
-          <div className="w-4 h-4 rounded-full bg-yellow-500 border-2 border-black"></div>
-          <div className="w-4 h-4 rounded-full bg-green-500 border-2 border-black"></div>
-          <div className="flex-1 bg-gray-100 px-4 py-1 text-sm border-2 border-black">
-            {view === "desktop" ? "Desktop Preview" : "Mobile Preview"}
+        {isMobile && isMobile ? null : (
+          <div className="flex items-center gap-2 mb-4 border-b-4 border-black pb-4">
+            <div className="w-4 h-4 rounded-full bg-red-500 border-2 border-black"></div>
+            <div className="w-4 h-4 rounded-full bg-yellow-500 border-2 border-black"></div>
+            <div className="w-4 h-4 rounded-full bg-green-500 border-2 border-black"></div>
+            <div className="flex-1 bg-gray-100 px-4 py-1 text-sm border-2 border-black">
+              {view === "desktop" ? "Desktop Preview" : "Mobile Preview"}
+            </div>
+            {/* View Toggle Buttons */}
+            <button
+              onClick={() => setView("desktop")}
+              className={`flex items-center gap-2 px-4 py-1 border-2 border-black transition-transform hover:-translate-y-0.5 ${
+                view === "desktop"
+                  ? "bg-black text-yellow-300"
+                  : "bg-white text-black hover:bg-gray-100"
+              }`}
+            >
+              <FaDesktop className="w-4 h-4" />
+              DESKTOP
+            </button>
+            <button
+              onClick={() => setView("mobile")}
+              className={`flex items-center gap-2 px-4 py-1 border-2 border-black transition-transform hover:-translate-y-0.5 ${
+                view === "mobile"
+                  ? "bg-black text-yellow-300"
+                  : "bg-white text-black hover:bg-gray-100"
+              }`}
+            >
+              <FaMobile className="w-4 h-4" />
+              MOBILE
+            </button>
           </div>
-          {/* View Toggle Buttons */}
-          <button
-            onClick={() => setView("desktop")}
-            className={`flex items-center gap-2 px-4 py-1 border-2 border-black transition-transform hover:-translate-y-0.5 ${
-              view === "desktop"
-                ? "bg-black text-yellow-300"
-                : "bg-white text-black hover:bg-gray-100"
-            }`}
-          >
-            <FaDesktop className="w-4 h-4" />
-            DESKTOP
-          </button>
-          <button
-            onClick={() => setView("mobile")}
-            className={`flex items-center gap-2 px-4 py-1 border-2 border-black transition-transform hover:-translate-y-0.5 ${
-              view === "mobile"
-                ? "bg-black text-yellow-300"
-                : "bg-white text-black hover:bg-gray-100"
-            }`}
-          >
-            <FaMobile className="w-4 h-4" />
-            MOBILE
-          </button>
-        </div>
-
+        )}
         {/* Content Area with Enhanced Scrolling */}
         <div className="h-[calc(100%-4rem)] bg-gray-200 border-4 border-black">
           <div
