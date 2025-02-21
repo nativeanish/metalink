@@ -129,9 +129,12 @@ export function ThemeCard({
 
             <div
               className={`h-[calc(90vh-120px)] overflow-hidden border-2 border-black bg-gray-100
-                          ${
-                            view === "mobile" ? "mx-auto w-[375px]" : "w-full"
-                          }`}
+                    ${
+                      view === "mobile"
+                        ? "mx-auto w-[375px] flex justify-center"
+                        : "w-full"
+                    }`}
+              style={{ maxWidth: "100%" }}
             >
               <img
                 // src={`https://raw.githubusercontent.com/nativeanish/browser/main/${
