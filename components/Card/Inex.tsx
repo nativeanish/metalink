@@ -116,7 +116,7 @@ export default function BrutalistCarousel() {
 function CarouselImage({ src, title }: { src: string; title: string }) {
   return (
     <div className="relative group">
-      <div className="relative aspect-[9/18] w-[280px] md:w-[320px] border-8 border-black">
+      <div className="relative aspect-[9/18] w-[280px] md:w-[320px] md:aspect-[9/18] border-8 border-black">
         <a href={`https://${title}_metalinks.ar.io`} target="_blank">
           <img
             src={src || "/placeholder.svg"}

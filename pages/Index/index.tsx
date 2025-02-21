@@ -198,7 +198,7 @@ export default function Index() {
         />
       )}
       <div className="max-w-4xl mx-auto mb-16 relative z-10">
-        <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-tight">
+        <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold mb-8 leading-tight">
           <GlitchText text={glitchText1} />
           <br />
           <GlitchText text={glitchText2} />
@@ -229,7 +229,7 @@ export default function Index() {
                     onChange={(e) => setHandle(e.target.value)}
                     className="w-full bg-white text-black p-2 sm:p-3 text-sm sm:text-base outline-none"
                   />
-                  <div className="absolute right-0 top-0 h-full flex items-center pr-3 pointer-events-none">
+                  <div className="absolute right-0 top-0 h-full  items-center pr-3 pointer-events-none hidden sm:flex">
                     <span className="text-black font-medium transition-opacity duration-500 opacity-80 text-sm sm:text-base">
                       _metalinks.{handles[currentHandle]}
                     </span>
