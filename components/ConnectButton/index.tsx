@@ -68,11 +68,14 @@ function ConnectButton() {
           setWallet(!wallet);
           setIsDropdownOpen(!isDropdownOpen);
         }}
-        className={
-          address && address.length
-            ? "bg-white p-4 hover:bg-white/90 text-black border-2 border-black hover:border-black/90 px-6 py-2 flex items-center gap-2 transition-colors relative"
-            : "bg-black p-4 hover:bg-black/90 text-white border-2 border-black hover:border-black/90 px-6 py-2 flex items-center gap-2 transition-colors relative"
-        }
+        className={`
+          ${
+            address && address.length
+              ? "bg-white p-4 hover:bg-white/90 text-black border-2 border-black hover:border-black/90"
+              : "bg-black p-4 hover:bg-black/90 text-white border-2 border-black hover:border-black/90"
+          } 
+          px-6 py-2 flex items-center gap-2 transition-colors relative
+        `}
       >
         {address?.length && address ? (
           <>
@@ -102,7 +105,7 @@ function ConnectButton() {
         )}
       </button>
       {!address && wallet && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border-2 border-black shadow-lg">
+        <div className="absolute right-0 mt-2 w-48 bg-white border-2 border-black shadow-lg z-50">
           <button
             className="w-full text-left px-4 py-2 hover:bg-gray-200 transition-colors border-b-2 border-black flex flex-row items-center gap-x-3 bg-white"
             onClick={() => {
@@ -128,7 +131,7 @@ function ConnectButton() {
         </div>
       )}
       {address && address.length && isDropdownOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border-2 border-black shadow-lg">
+        <div className="absolute right-0 mt-2 w-48 bg-white border-2 border-black shadow-lg z-50">
           <button
             className="w-full text-left px-4 py-2 hover:bg-gray-200 transition-colors border-b-2 border-black flex flex-row items-center gap-x-3 bg-white"
             onClick={() => {

@@ -155,7 +155,7 @@ export default function Index() {
   return (
     <main className="min-h-screen bg-yellow-300 p-6 font-mono relative overflow-hidden">
       {/* Binary Rain Effect */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
@@ -175,7 +175,7 @@ export default function Index() {
         ))}
       </div>
 
-      <nav className="flex items-center justify-between mb-20 relative z-10">
+      <nav className="flex items-center justify-between mb-20 relative z-[60]">
         <div className="flex flex-row gap-x-1">
           <div>
             <img
