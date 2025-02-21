@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { TableHeader } from './TableHeader';
-import { SearchBar } from './SearchBar';
-import { Pagination } from './Pagination';
+import React, { useState } from "react";
+import { TableHeader } from "./TableHeader";
+import { SearchBar } from "./SearchBar";
+import { Pagination } from "./Pagination";
 
 interface Column<T> {
   header: string;
@@ -51,7 +51,7 @@ export function BrutalistTable<T extends object>({
       />
 
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
+        <table className="w-full border-collapse min-w-full">
           <thead>
             <tr className="bg-gray-100">
               {columns.map((column, index) => (
