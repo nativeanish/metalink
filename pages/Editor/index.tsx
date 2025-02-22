@@ -181,7 +181,7 @@ function Editor() {
       {showPreview && (
         <div className="fixed inset-0 bg-white z-50 flex flex-col">
           <button
-            className="self-end p-2 border-black border-2 text-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+            className="self-end p-2 border-black border-2 text-black bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] fixed top-4 right-4 z-50"
             onClick={() => setShowPreview(false)}
           >
             Minimize

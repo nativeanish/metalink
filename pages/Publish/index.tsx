@@ -38,11 +38,22 @@ function Publish() {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [checkprimary, setPrimary] = useState(false);
   const [eroor, setError] = useState("");
+  const [text_error, setTextError] = useState("");
   useEffect(() => {
     if (!theme) {
       navigate("/theme");
     }
   }, [theme, navigate]);
+  useEffect(() => {
+    setTextError("");
+    if (arnsName.length > 9) {
+      setTextError("Name should be less than 8 characters");
+    } else if (!/^[a-z0-9]+$/.test(arnsName)) {
+      setTextError("Only lowercase letters and numbers are allowed");
+    } else {
+      setTextError("");
+    }
+  }, [arnsName]);
   const isEdit = useEdit((state) => state.isEdit);
   useEffect(() => {
     if (isEdit) {
@@ -242,8 +253,12 @@ function Publish() {
                                 />
                                 <button
                                   disabled={
-                                    arnsName.startsWith("@") ? true : false
+                                    arnsName.startsWith("@") ||
+                                    arnsName.startsWith("_") ||
+                                    arnsName.length === 0 ||
+                                    text_error.length > 0
                                   }
+                                  // arnsName.startsWith("@") ? true : setTextError.length > 0 || arnsName.length === 0
                                   type="submit"
                                   className="bg-black text-yellow-300 px-4 md:px-6 py-2 font-bold hover:bg-yellow-300 hover:text-black border-2 border-black transition-colors"
                                 >
@@ -275,6 +290,13 @@ function Publish() {
                                 {data}
                               </div>
                             )}
+                            {text_error &&
+                              text_error.length > 0 &&
+                              arnsName.length > 0 && (
+                                <div className="text-red-500 font-bold mt-2">
+                                  {text_error}
+                                </div>
+                              )}
                             {!loading && isavailable === false && (
                               <div className="text-red-500 font-bold mt-2">
                                 Handle is not available

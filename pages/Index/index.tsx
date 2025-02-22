@@ -111,6 +111,7 @@ export default function Index() {
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
   const address = useAddress((state) => state.address);
+  const [error, setError] = useState("");
   useEffect(() => {
     if (address && address.length > 0) {
       const data = sessionStorage.getItem("redirectTrue");
@@ -120,6 +121,16 @@ export default function Index() {
       }
     }
   }, [address]);
+  useEffect(() => {
+    setError("");
+    if (handle.length > 9) {
+      setError("Name should be less than 8 characters");
+    } else if (!/^[a-z0-9]+$/.test(handle)) {
+      setError("Only lowercase letters and numbers are allowed");
+    } else {
+      setError("");
+    }
+  }, [handle]);
   // Handle rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
@@ -241,14 +252,23 @@ export default function Index() {
                       setShow(true);
                     }
                   }}
+                  disabled={handle.length === 0 || error.length > 0}
                   className="bg-yellow-300 text-black hover:bg-yellow-400 px-3 sm:px-4 py-2 text-sm sm:text-base transition-colors whitespace-nowrap"
                 >
                   Claim
                 </button>
               </div>
             </div>
+            {error.length > 0 && handle.length > 0 && (
+              <div className="text-red-500 text-sm">{error}</div>
+            )}
           </div>
         </div>
+      </div>
+      <div className="text-center mb-20 relative z-10">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
+          Feature User
+        </h2>
       </div>
       <BrutalistCarousel />
       <footer className="w-full  py-8 mt-auto">

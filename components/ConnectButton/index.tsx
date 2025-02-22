@@ -15,7 +15,7 @@ import {
   disconnect,
 } from "../../utils/wallet";
 import useAddress from "../../store/useAddress";
-import ArConnect from "../../Image/ArConnect";
+import Wander from "../../Image/Wander";
 import Metamask from "../../Image/Metmask";
 
 function ConnectButton() {
@@ -81,7 +81,7 @@ function ConnectButton() {
           <>
             <div className="flex flex-row items-center gap-x-3 justify-center">
               {type === "metamask" && <Metamask />}
-              {type === "arconnect" && <ArConnect />}
+              {type === "arconnect" && <Wander />}
               {address.slice(0, 6) + "..." + address.slice(-4)}
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${
@@ -114,8 +114,8 @@ function ConnectButton() {
               setIsDropdownOpen(false);
             }}
           >
-            <ArConnect />
-            ArConnect
+            <Wander />
+            Wander
           </button>
           <button
             className="w-full text-left px-4 py-2 hover:bg-gray-200 transition-colors border-b-2 border-black flex flex-row items-center gap-x-3 bg-white"
