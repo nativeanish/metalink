@@ -39,6 +39,7 @@ function Publish() {
   const [checkprimary, setPrimary] = useState(false);
   const [eroor, setError] = useState("");
   const [text_error, setTextError] = useState("");
+  const type = useAddress((state) => state.type);
   useEffect(() => {
     if (!theme) {
       navigate("/theme");
@@ -109,8 +110,12 @@ function Publish() {
     if (currentStep === 5) {
       setTimeout(() => {
         useEdit.getState().setIsEdit(false);
-        sessionStorage.setItem("redirectTrue", "true");
-        window.location.reload();
+        if (window.innerWidth > 768 && type === "arconnect") {
+          sessionStorage.setItem("redirectTrue", "true");
+          window.location.reload();
+        } else {
+          navigate("/dashboard");
+        }
       }, 4000);
     }
   }, [navigate, currentStep, arnsName]);
