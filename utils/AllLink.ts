@@ -77,6 +77,7 @@ import {
   SiRevolut,
   SiTrakt,
   SiZoom,
+  SiFarcaster,
 } from "react-icons/si";
 import {
   FaApplePay,
@@ -608,6 +609,12 @@ const AllLink = [
     className: "bg-blue-600 text-white",
     arweave: ["V3RlJd4MZ4rkNw9t_TVi68RF5nf9gIDHZ7RsHBJM-Fs"],
   },
+  {
+    name: "Farcaster",
+    icon: SiFarcaster,
+    className: "bg-white text-black border-2 border-black",
+    arweave: ["5z6epsXCf7HsjLGd8iuUnNWj0Zr_EzOSDuBbi5K7apw"]
+  }
 ];
 
 export default AllLink;

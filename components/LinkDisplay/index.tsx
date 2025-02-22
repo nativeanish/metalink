@@ -55,7 +55,7 @@ export function LinkDisplay({ id }: LinkDisplayProps) {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="font-bold text-xl bg-white border-2 border-black px-2 focus:outline-none focus:ring-2 focus:ring-black"
+                    className="w-full font-bold text-xl bg-white border-2 border-black px-2 focus:outline-none focus:ring-2 focus:ring-black"
                   />
                 ) : (
                   <h3 className="font-bold text-xl uppercase">{name}</h3>
