@@ -9,6 +9,8 @@ import { FaXTwitter } from "react-icons/fa6";
 import useAddress from "../../store/useAddress";
 import { useNavigate } from "react-router-dom";
 import BrutalistCarousel from "../../components/Card/Inex";
+import ArNS from "../../Image/ArNS";
+import useTextScramble from "../../store/useTextScramble";
 
 const handles = [
   "permadao.io",
@@ -112,6 +114,8 @@ export default function Index() {
   const navigate = useNavigate();
   const address = useAddress((state) => state.address);
   const [error, setError] = useState("");
+  const connect = useTextScramble("Connect", 4000);
+  const user = useTextScramble("Feature User", 4000);
   useEffect(() => {
     if (address && address.length > 0) {
       const data = sessionStorage.getItem("redirectTrue");
@@ -265,24 +269,57 @@ export default function Index() {
           </div>
         </div>
       </div>
-      <div className="text-center mb-20 relative z-10">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8">
-          Feature User
-        </h2>
+      <div className="mb-20 relative z-10 md:text-left text-center">
+        <div className="bg-black text-white p-4 inline-block">
+          <h1>{user.displayText}</h1>
+        </div>
       </div>
       <BrutalistCarousel />
-      <footer className="w-full  py-8 mt-auto">
-        <div className="container px-4 mx-auto">
-          <div className="flex flex-col items-end justify-center space-y-4">
-            <div className="flex items-center space-x-6">
-              <a href="https://github.com/nativeanish/metalink" target="_blank">
-                <FaGithub className="w-6 h-6" />
-              </a>
-              <a href="https://x.com/metalinks_ar" target="_blank">
-                <FaXTwitter className="w-6 h-6" />
-              </a>
+      <div className="relative z-10 md:text-left text-center mt-10 mb-10">
+        <div className="bg-black text-white p-4 inline-block">
+          <h1>{connect.displayText}</h1>
+        </div>
+      </div>
+      <footer className="w-full">
+        <div className="container mt-6 flex md:justify-start justify-center">
+          <div
+            className="bg-black text-white flex-row font-mono inline-flex rounded-sm cursor-pointer"
+            onClick={() => {
+              window.open(
+                "https://ar.io/?utm_campaign=poweredbyario&utm_medium=affiliate&utm_source=metalinks",
+                "_blank"
+              );
+            }}
+          >
+            <div className="p-2 flex items-center justify-center">
+              <ArNS color="white" width="25" height="30" />
+            </div>
+            <div className="ml-1 bg-gray-200 w-[1px]"></div>
+            <div className="ml-2 mr-2 flex items-center justify-center">
+              <p>Powered by</p>
+              <p className="ml-2 font-extrabold">ar.io</p>
             </div>
           </div>
+          <div className="ml-3 flex flex-col items-center md:items-left ">
+            <div className="flex items-center justify-center">
+              <div className="bg-black text-white p-3 rounded-md">
+                <a
+                  href="https://github.com/nativeanish/metalink"
+                  target="_blank"
+                >
+                  <FaGithub className="w-6 h-6" />
+                </a>
+              </div>
+              <div className="bg-black text-white p-3 rounded-md ml-2">
+                <a href="https://x.com/metalinks_ar" target="_blank">
+                  <FaXTwitter className="w-6 h-6" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="flex md:justify-end justify-center md:mt-0 mt-2">
+          <p className="text-sm">© 2025 Metalinks 0.0.4</p>
         </div>
       </footer>
     </main>
