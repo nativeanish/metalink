@@ -38,7 +38,7 @@ export default async function upload(
       image.startsWith("data:image") &&
       src !== "url"
     ) {
-      const buf = base64ToBuffer(image);
+      const buf = base64ToBuffer(await compressBase64Image(image))
       if (buf) {
         try {
           const image_id = await turbo(buf, src);
@@ -115,4 +115,49 @@ function base64ToBuffer(base64Image: string): Buffer | null {
 
   // Return null if the format is unknown or invalid
   return null;
+}
+
+async function compressBase64Image(
+  base64: string,
+  targetSizeKB: number = 100,
+  quality: number = 0.7
+): Promise<string> {
+  const targetSize = targetSizeKB * 1024; // Convert KiB to Bytes
+
+  function base64ToImage(base64: string): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = (err) => reject(err);
+      img.src = base64;
+    });
+  }
+
+  function imageToCanvas(img: HTMLImageElement, quality: number): string {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    if (!ctx) {
+      throw new Error("Canvas context is not available.");
+    }
+
+    // Resize (optional)
+    const scaleFactor = Math.sqrt(targetSize / (base64.length * 0.75));
+    canvas.width = Math.max(1, img.width * scaleFactor);
+    canvas.height = Math.max(1, img.height * scaleFactor);
+
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    return canvas.toDataURL("image/jpeg", quality); // Adjust quality
+  }
+
+  const img = await base64ToImage(base64);
+  let compressedBase64 = imageToCanvas(img, quality);
+
+  while ((compressedBase64.length * 0.75) > targetSize && quality > 0.1) {
+    quality -= 0.1; // Reduce quality stepwise
+    compressedBase64 = imageToCanvas(img, quality);
+  }
+
+  return compressedBase64;
 }
