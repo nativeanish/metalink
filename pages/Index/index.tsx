@@ -1,17 +1,14 @@
 import type React from "react";
+
 import { useState, useEffect, useRef } from "react";
 import ConnectButton from "../../components/ConnectButton";
-import {
-  FaGithub,
-  FaXTwitter,
-  FaArrowRight,
-  FaArrowDown,
-} from "react-icons/fa6";
+import { FaGithub, FaXTwitter, FaArrowDown } from "react-icons/fa6";
 import AvailabilityModal from "../../components/AvailabilityModal";
 import useAddress from "../../store/useAddress";
 import { useNavigate } from "react-router-dom";
 import BrutalistCarousel from "../../components/Card/Inex";
 import AnimatedBackground from "../../components/AnimatedBackground";
+import ArNS from "../../Image/ArNS";
 
 const handles = [
   "permadao.io",
@@ -192,7 +189,6 @@ export default function Index() {
   const [currentHandle, setCurrentHandle] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
 
   const heroRef = useRef<HTMLDivElement>(null);
@@ -224,7 +220,6 @@ export default function Index() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
 
-      // Update navbar style
       if (scrollPosition > 50) {
         setIsScrolled(true);
       } else {
@@ -255,7 +250,6 @@ export default function Index() {
 
   const scrollToSection = (ref: React.RefObject<HTMLDivElement>) => {
     ref.current?.scrollIntoView({ behavior: "smooth" });
-    setIsMenuOpen(false);
   };
 
   return (
@@ -320,56 +314,6 @@ export default function Index() {
 
           <div className="flex md:hidden items-center space-x-4">
             <ConnectButton />
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="w-10 h-10 flex flex-col justify-center items-center border-2 border-black bg-white"
-              aria-label="Toggle menu"
-            >
-              <span
-                className={`block w-5 h-0.5 bg-black transition-transform duration-300 ${
-                  isMenuOpen ? "rotate-45 translate-y-1" : ""
-                }`}
-              ></span>
-              <span
-                className={`block w-5 h-0.5 bg-black my-1 transition-opacity duration-300 ${
-                  isMenuOpen ? "opacity-0" : ""
-                }`}
-              ></span>
-              <span
-                className={`block w-5 h-0.5 bg-black transition-transform duration-300 ${
-                  isMenuOpen ? "-rotate-45 -translate-y-1" : ""
-                }`}
-              ></span>
-            </button>
-          </div>
-        </div>
-
-        <div
-          className={`md:hidden absolute w-full bg-yellow-300 border-t-2 border-black transition-all duration-500 overflow-hidden ${
-            isMenuOpen ? "max-h-60 border-b-2" : "max-h-0"
-          }`}
-        >
-          <div className="container mx-auto px-6 py-4">
-            <div className="flex flex-col space-y-4">
-              <button
-                onClick={() => scrollToSection(heroRef)}
-                className="px-4 py-2 font-bold text-left border-b border-black"
-              >
-                Home
-              </button>
-              <button
-                onClick={() => scrollToSection(featuresRef)}
-                className="px-4 py-2 font-bold text-left border-b border-black"
-              >
-                Features
-              </button>
-              <button
-                onClick={() => scrollToSection(examplesRef)}
-                className="px-4 py-2 font-bold text-left"
-              >
-                Examples
-              </button>
-            </div>
           </div>
         </div>
       </nav>
@@ -388,7 +332,7 @@ export default function Index() {
       >
         <div className="max-w-6xl mx-auto w-full">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="md:order-2 transform hover:rotate-2 transition-transform duration-500">
+            <div className="md:order-2 order-2 transform hover:rotate-2 transition-transform duration-500">
               <div className="bg-white border-4 border-black p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-16 h-16 bg-yellow-300 transform rotate-45 translate-x-8 -translate-y-8"></div>
                 <div className="absolute bottom-0 left-0 w-16 h-16 bg-yellow-300 transform rotate-45 -translate-x-8 translate-y-8"></div>
@@ -407,8 +351,8 @@ export default function Index() {
                         onChange={(e) => setHandle(e.target.value)}
                         className="w-full bg-gray-100 text-black p-4 text-base outline-none border-2 border-black transform transition-transform focus:translate-x-1 focus:translate-y-1"
                       />
-                      <div className="absolute right-0 top-0 h-full flex items-center pr-3 pointer-events-none">
-                        <span className="text-gray-500 font-medium transition-opacity duration-500 opacity-80 text-sm">
+                      <div className="absolute right-0 top-0 h-full flex items-center pr-3 pointer-events-none ">
+                        <span className="hidden md:block text-gray-500 font-medium transition-opacity duration-500 opacity-80 text-sm">
                           _metalinks.{handles[currentHandle]}
                         </span>
                       </div>
@@ -428,21 +372,21 @@ export default function Index() {
               </div>
             </div>
 
-            <div className="md:order-1">
+            <div className="md:order-1 order-1">
               <div className="mb-8 transform hover:translate-x-2 transition-transform duration-500">
-                <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight mt-8 md:mt-0">
                   <div className="overflow-hidden">
                     <span className="block transform translate-y-0 opacity-100 transition-all duration-700 delay-100">
                       Your Links,
                     </span>
                   </div>
-                  <div className="overflow-hidden">
+                  <div className="overflow-hidden whitespace-nowrap">
                     <span className="block transform translate-y-0 opacity-100 transition-all duration-700 delay-300">
                       Your Control,
                     </span>
                   </div>
                   <div className="overflow-hidden">
-                    <span className="bg-black text-yellow-300 px-2 transform hover:skew-x-2 transition-transform duration-300 inline-block animate-pulse">
+                    <span className="bg-black text-yellow-300 px-0 transform hover:skew-x-2 transition-transform duration-300 inline-block animate-pulse">
                       Decentralized.
                     </span>
                   </div>
@@ -451,22 +395,7 @@ export default function Index() {
                   Create your decentralized link hub. Own your content, control
                   your presence. No intermediaries, just pure web3 freedom.
                 </p>
-                <div className="flex flex-col sm:flex-row gap-4 transform translate-y-0 opacity-100 transition-all duration-700 delay-700">
-                  <button
-                    onClick={() => scrollToSection(featuresRef)}
-                    className="bg-black text-yellow-300 px-6 py-3 font-bold hover:bg-yellow-400 hover:text-black border-2 border-black transition-colors transform hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
-                  >
-                    Learn More
-                  </button>
-                  <button
-                    onClick={() => navigate("/theme")}
-                    className="bg-white text-black px-6 py-3 font-bold hover:bg-black hover:text-white border-2 border-black transition-colors flex items-center justify-center gap-2 transform hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
-                  >
-                    Get Started <FaArrowRight className="animate-bounce-x" />
-                  </button>
-                </div>
               </div>
-
               <div className="hidden md:flex items-center mt-16 animate-bounce">
                 <FaArrowDown className="mr-2" />
                 <span className="font-bold">Scroll to explore</span>
@@ -646,7 +575,7 @@ export default function Index() {
                 href="https://github.com/nativeanish/metalink"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-gray-600 transition-colors transform hover:scale-110 transition-transform duration-300"
+                className="hover:text-gray-600  transform hover:scale-110 transition-transform duration-300"
               >
                 <FaGithub className="w-6 h-6" />
               </a>
@@ -654,17 +583,39 @@ export default function Index() {
                 href="https://x.com/metalinks_ar"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-gray-600 transition-colors transform hover:scale-110 transition-transform duration-300"
+                className="hover:text-gray-600  transform hover:scale-110 transition-transform duration-300"
               >
                 <FaXTwitter className="w-6 h-6" />
               </a>
             </div>
           </div>
 
-          <div className="mt-8 pt-8 border-t-2 border-black text-center">
-            <p className="animate-pulse">
-              © {new Date().getFullYear()} MetaLinks. Built on Arweave.
-            </p>
+          <div className="max-w-6xl mx-auto mt-8 pt-8 border-t-2 border-black">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <div
+                className="bg-black text-white flex-row font-mono inline-flex rounded-sm cursor-pointer"
+                onClick={() => {
+                  window.open(
+                    "https://ar.io/?utm_campaign=poweredbyario&utm_medium=affiliate&utm_source=metalinks",
+                    "_blank"
+                  );
+                }}
+              >
+                <div className="p-2 flex items-center justify-center">
+                  <ArNS color="white" width="25" height="30" />
+                </div>
+                <div className="ml-1 bg-gray-200 w-[1px]"></div>
+                <div className="ml-2 mr-2 flex items-center justify-center">
+                  <p>Powered by</p>
+                  <p className="ml-2 font-extrabold">ar.io</p>
+                </div>
+              </div>
+              <div className="md:mt-0 mt-6">
+                <p className="animate-pulse">
+                  © {new Date().getFullYear()} MetaLinks. Built on Arweave.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </footer>
