@@ -198,7 +198,6 @@ export default function Index() {
 
   const navigate = useNavigate();
   const address = useAddress((state) => state.address);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentHandle((prev) => (prev + 1) % handles.length);
@@ -215,6 +214,13 @@ export default function Index() {
       }
     }
   }, [address, navigate]);
+  const moveanconnect = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    console.log(address);
+    if (address && address.length > 0) {
+      navigate("/theme");
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -542,7 +548,7 @@ export default function Index() {
             online presence.
           </p>
           <button
-            onClick={() => navigate("/theme")}
+            onClick={() => moveanconnect()}
             className="bg-yellow-300 text-black px-8 py-4 font-bold text-xl hover:bg-yellow-400 transition-colors border-2 border-yellow-300 hover:border-yellow-400 transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] active:translate-y-0 active:shadow-none"
           >
             Get Started Now
